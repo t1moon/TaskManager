@@ -1,0 +1,13 @@
+.uk-form-deadline {
+    width: 100%;
+}
+.uk-form-icon {
+    width: 20%;
+}
+.uk-form-new-task-name, .uk-form-new-task-desc {
+    width: 90%;
+}
+
+.uk-form-new-task-deadline {
+    margin-left: 45%;
+}

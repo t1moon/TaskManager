@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+    {% include "add_task_modal.html" %}
+    <h1></h1>
     {% for task in tasks %}
         {% include "single_task.html" %}
     {% endfor %}
@@ -7,6 +9,7 @@
 {% endblock %}
 {% block category %}
     {% for category in categories %}
-        "category"
+        <p>category</p>
     {% endfor %}
 {% endblock %}
+

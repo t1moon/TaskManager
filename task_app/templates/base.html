@@ -12,10 +12,15 @@
     <title>Task Manager</title>
 
     <!-- Bootstrap core CSS -->
-    <link href={% static "css/bootstrap.min.css" %} rel="stylesheet">
+    <link href={% static "bootstrap/css/bootstrap.min.css" %} rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href={% static "css/blog.css" %} rel="stylesheet">
+    <link href={% static "my/blog.css" %} rel="stylesheet">
+      <link href={% static "my/main.css" %} rel="stylesheet">
+    <link href={% static "uikit/css/uikit.min.css" %} rel="stylesheet">
+    <link href={% static "uikit/css/uikit.docs.min.css" %} rel="stylesheet">
+    <link href={% static "uikit/css/components/datepicker.min.css" %} rel="stylesheet">
+
   </head>
 
   <body>
@@ -42,6 +47,7 @@
       <div class="row">
 
         <div class="col-sm-8 blog-main">
+        <hr>
           {% block content %}
           {% endblock content %}
           <nav>
@@ -91,7 +97,7 @@
     </div><!-- /.container -->
 
     <footer class="blog-footer">
-      <p>Blog template built for <a href="http://getbootstrap.com">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+      <p>Made with love</p>
       <p>
         <a href="#">Back to top</a>
       </p>
@@ -101,8 +107,12 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src={% static "js/jquery.min.js" %}></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src={% static "js/jquery.min.js" %}></script>
+    <script src={% static "bootstrap/js/jquery.min.js" %}></script>
+    <script src={% static "bootstrap/js/bootstrap.min.js" %}></script>
+{#    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>#}
+    <script src={% static "uikit/js/uikit.min.js" %}></script>
+    <script src={% static "uikit/js/components/datepicker.min.js" %}></script>
+    <script src={% static "my/main.js" %}></script>
+
   </body>
 </html>
