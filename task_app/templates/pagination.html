@@ -1,0 +1,32 @@
+{% load custom_filter %}
+{% if page.paginator.num_pages > 1 %}
+<ul class="pagination">
+        <li>
+            {% if page.has_previous %}
+                <a href="?page={{ 1 }}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            {% endif %}
+        </li>
+        {% for i in page|relative_page_list:"3" %}
+            {% if i == page.number %}
+                <li class="active">
+                    <a href="?page={{ i }}">{{ i }}</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="?page={{ i }}">{{ i }}</a>
+                </li>
+            {% endif %}
+
+        {% endfor %}
+
+        <li>
+            {% if page.has_next %}
+                <a href="?page={{ page.paginator.num_pages }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            {% endif %}
+        </li>
+</ul>
+{% endif %}

@@ -20,6 +20,4 @@ import task_app.views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', task_app.views.index, name='index'),
-    url(r'^list$', task_app.views.ListTaskView.as_view(), name='tasks-list'),
-    url(r'^edit$', task_app.views.CreateTaskView.as_view(), name='tasks-new'),
 ]
