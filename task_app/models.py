@@ -8,7 +8,7 @@ from django.db import models
 # Create your models here.
 
 
-class Category(models.Model):
+class Tag(models.Model):
     title = models.CharField(max_length=255)
 
 
@@ -19,7 +19,7 @@ class Task(models.Model):
     is_deleted = models.BooleanField(default = False)
     is_done = models.BooleanField(default = False)
     created_at = models.DateTimeField(default=datetime.now())
-    category = models.ForeignKey(Category)
+    tags = models.ManyToManyField(Tag)
 
 
 class Profile(models.Model):

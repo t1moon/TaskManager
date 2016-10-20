@@ -37,5 +37,5 @@ def paginate(object_list, request, on_list):
 
 def index(request):
     # tasks = Task.objects.new()
-    page = paginate(tasks, request, 5)
+    page = paginate(tasks, request, 10)
     return render(request, 'index.html', {"tasks": page, "categories": categories})
