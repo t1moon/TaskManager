@@ -11,13 +11,12 @@ categories = []
 
 for i in range(15):
     tasks.append({
-        "title": 'Task{}'.format(i),
+        "title": 'ML Cup fixes',
         "description": 'blabla'
     })
 for i in range(5):
-    tasks.append({
-        "title": 'Task{}'.format(i),
-        "description": 'blabla'
+    categories.append({
+        "title": 'Personal'
     })
 
 

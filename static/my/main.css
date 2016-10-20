@@ -11,3 +11,17 @@
 .uk-form-new-task-deadline {
     margin-left: 45%;
 }
+
+.btn-add-task {
+    float: right;
+    margin-right: 35%;
+}
+
+.user-avatar {
+    height: 50px;
+    width: 50px;
+}
+.uk-comment-user {
+    width: 30%;
+    margin-right: 10%;
+}

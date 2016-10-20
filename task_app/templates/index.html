@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-    {% include "add_task_modal.html" %}
     <h1></h1>
     {% for task in tasks %}
         {% include "single_task.html" %}
@@ -8,8 +7,10 @@
     {% include "pagination.html" with page=tasks %}
 {% endblock %}
 {% block category %}
-    {% for category in categories %}
-        <p>category</p>
-    {% endfor %}
+    <ul class="uk-list uk-list-line">
+        {% for category in categories %}
+            <li>category</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
 

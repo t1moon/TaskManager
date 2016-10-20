@@ -79,10 +79,11 @@ h6, .h6 {
  */
 
 .blog-header {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 .blog-title {
+  display: inline;
   margin-top: 30px;
   margin-bottom: 0;
   font-size: 40px;
@@ -104,14 +105,21 @@ h6, .h6 {
 }
 
 /* Sidebar modules for boxing content */
-.sidebar-module {
+.sidebar-module-status {
   padding: 15px;
-  margin: 0 -15px 15px;
-}
-.sidebar-module-inset {
-  padding: 15px;
-  background-color: #f5f5f5;
+  padding-bottom: 5px;
   border-radius: 4px;
+  background-color: rgba(255, 24, 75, 0.02);
+}
+.sidebar-module-category {
+  padding: 15px;
+  padding-bottom: 5px;
+  background-color: rgba(74, 181, 255, 0.02);
+  border-radius: 4px;
+}
+.blog-sidebar li {
+  font-size: 20px;
+  font-style: italic;
 }
 .sidebar-module-inset p:last-child,
 .sidebar-module-inset ul:last-child,

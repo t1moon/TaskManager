@@ -1,6 +1,7 @@
 <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-default btn-lg"
-        data-toggle="modal" data-target="#myModal">Добавить задачу</button>
+<button type="button" class="btn btn-default btn-lg btn-add-task"
+        data-toggle="modal" data-target="#myModal">Добавить задачу
+</button>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -23,7 +24,7 @@
                     <div class="uk-form-row">
                         <textarea rows=10 placeholder="Описание" class="uk-form-new-task-desc"></textarea>
                     </div>
-
+                    <!-- Category and deadline -->
                     <div class="uk-form-row">
                         <select>
                             <option>Без категории</option>
@@ -36,6 +37,19 @@
                                    data-uk-datepicker="{minDate: '1',format:'DD.MM.YYYY'}">
                         </div>
                     </div>
+{#                    <div data-uk-dropdown="{mode:'click'}">#}
+{##}
+{#                        <!-- This is the element toggling the dropdown -->#}
+{#                        <button class="uk-button">Без категории<i class="uk-icon-caret-down"></i></button>#}
+{##}
+{#                        <!-- This is the dropdown -->#}
+{#                        <div class="uk-dropdown uk-dropdown-bottom" aria-hidden="true">#}
+{#                            <ul class="uk-nav uk-nav-dropdown">#}
+{#                                <li><a href="#">Личное</a></li>#}
+{#                                <li><a href="#">Работа</a></li>#}
+{#                            </ul>#}
+{#                        </div>#}
+{#                    </div>#}
                 </form>
 
             </div>
