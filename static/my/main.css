@@ -2,14 +2,18 @@
     width: 100%;
 }
 .uk-form-icon {
-    width: 20%;
+    width: 22%;
 }
-.uk-form-new-task-name, .uk-form-new-task-desc {
+.uk-form input {
+    margin: 5px;
+}
+.uk-form-new-task-name, .uk-form-new-task-desc, .uk-form-new-task-tag {
     width: 90%;
+    margin: 20px;
 }
 
 .uk-form-new-task-deadline {
-    margin-left: 45%;
+    margin-left: 60%;
 }
 
 .btn-add-task {
@@ -28,4 +32,9 @@
 
 .uk-accordion-title-width {
     width: 70%;
+}
+
+.count_right {
+    float: right;
+    margin-right: 0%;
 }

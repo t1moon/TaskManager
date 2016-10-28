@@ -20,4 +20,7 @@ import task_app.views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', task_app.views.index, name='index'),
+    url(r'^add_task$', task_app.views.add_task, name='add_task'),
+    url(r'^show_task$', task_app.views.show_task, name='show_task'),
+    url(r'^tag/(?P<tag_name>[\w\-!@#$%&*;]+)/$', task_app.views.tag, name='tag'),
 ]

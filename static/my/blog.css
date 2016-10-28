@@ -1,9 +1,16 @@
 /*
  * Globals
  */
+@font-face {
+    font-family: myFont;
+    src: url('../../static/src/fonts/fontawesome-webfont.woff'),
+          url('../../static/src/fonts/fontawesome-webfont.woff2'),
+          url('../../static/src/fonts/fontawesome-webfont.ttf');
+}
 
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #555;
 }
 
@@ -14,7 +21,7 @@ h4, .h4,
 h5, .h5,
 h6, .h6 {
   margin-top: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   color: #333;
 }
@@ -152,11 +159,11 @@ h6, .h6 {
   margin-bottom: 5px;
   font-size: 20px;
   float: left;
-  width: 80%;
+  width: 77%;
 }
 .blog-post-meta {
-  margin-bottom: 0px;
   margin-top: 5px;
+  margin-bottom: 5px;
   color: #999;
 }
 

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for task in tasks %}
+        {% include "single_task.html" %}
+    {% endfor %}
+    {% include "pagination.html" with page=tasks %}
+{% endblock %}
+
+{% block tag_block %}
+    <ul class="uk-list uk-list-line">
+        {% for tag in tags %}
+            <li>tag</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

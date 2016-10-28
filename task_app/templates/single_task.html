@@ -1,17 +1,20 @@
+
 <div class="blog-post">
-    <p class="blog-post-title">{{ task.title }}</p>
+<span class="glyphicon glyphicon-pencil" id="js-edit-task"aria-hidden="true"></span>
+    <p class="blog-post-title show_task_modal_title" data-taskid="{{ task.id }}" data-toggle="modal">{{ task.title }}</p>
     <form class="uk-form">
         <div class="uk-form-icon">
             <i class="uk-icon-calendar"></i>
-            <input type="text" class="uk-form-deadline" data-uk-datepicker="{minDate: '1',format:'DD.MM.YYYY'}">
+            <input type="text" class="uk-form-deadline" data-uk-datepicker="{minDate: '1',format:'YYYY-MM-DD'}"
+                   value="{{ task.deadline|date:'Y-m-d' }}">
         </div>
     </form>
-    <p class="blog-post-meta">Category</p>
-{##}
-{#        <p>This description shows a few different types of content that's supported and styled with Bootstrap. Basic#}
-{#            typography, images, and code are all supported.</p>#}
-{#    #}
-    <hr>
 
+    <p class="blog-post-meta">
+        {% for t in task.tags.all %}
+            <a class="blog-post-meta" href="{% url 'tag' t.title %}">{{ t.title }}</a>
+        {% endfor %}
+    </p>
 </div><!-- /.blog-post -->
+<hr>
 

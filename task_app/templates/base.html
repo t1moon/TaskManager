@@ -20,6 +20,9 @@
     <link href={% static "uikit/css/uikit.min.css" %} rel="stylesheet">
     <link href={% static "uikit/css/uikit.docs.min.css" %} rel="stylesheet">
     <link href={% static "uikit/css/components/datepicker.min.css" %} rel="stylesheet">
+    <link href={% static "semantic/semantic.min.css" %} rel="stylesheet">
+    <link href={% static "semantic/components/button.css" %} rel="stylesheet">
+
 
 
 </head>
@@ -67,9 +70,9 @@
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-category">
-                <h2>Категории</h2>
-                {% block category %}
-                {% endblock category %}
+                <h2>Теги</h2>
+                {% block tag_block %}
+                {% endblock tag_block %}
             </div>
             <div class="sidebar-module-status">
                 <h2>Статус</h2>
@@ -101,6 +104,7 @@
 <script src={% static "uikit/js/uikit.min.js" %}></script>
 <script src={% static "uikit/js/components/datepicker.min.js" %}></script>
 <script src={% static "uikit/js/components/accordion.min.js" %}></script>
+<script src={% static "semantic/semantic.min.js" %}></script>
 <script src={% static "my/main.js" %}></script>
 
 </body>

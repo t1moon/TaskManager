@@ -2,14 +2,19 @@
 {% block content %}
     {% for task in tasks %}
         {% include "single_task.html" %}
+        {% include 'show_task_modal.html' %}
     {% endfor %}
     {% include "pagination.html" with page=tasks %}
 {% endblock %}
-{% block category %}
+{% block tag_block %}
     <ul class="uk-list uk-list-line">
-        {% for category in categories %}
-            <li>category</li>
+        <li><a href="{% url 'index'%}">Все задачи</a></li>
+{#         <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}</a></li>#}
+        {% for tag in tags %}
+            <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}
+                <span class="count_right">({{ tag.task_set.count }})</span></a></li>
         {% endfor %}
+        <li><a href="#">Без тега</a></li>
     </ul>
 {% endblock %}
 
