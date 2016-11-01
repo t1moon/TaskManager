@@ -1,15 +1,15 @@
-from django.core.serializers import json
+from django.views.decorators.csrf import csrf_exempt
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView
 
 from task_app.forms import TaskForm
 from task_app.models import Task, Tag
-
+import json
 
 def paginate(object_list, request, on_list):
     list = object_list
@@ -34,10 +34,11 @@ def index(request):
     return render(request, 'index.html', {"tasks": page, "tags": tags, "form": form})
 
 
-def task_deleted(request):
-    if request.is_ajax() and request.method == 'POST':
-        task_id = request.GET['id']
-        task = Task.objects.get(id=task_id)
+@csrf_exempt
+def delete_task(request):
+    if request.method == 'POST':
+        t_id = request.POST.get('task_id')
+        task = Task.objects.get(id=t_id)
         task.is_deleted = True
         task.save()
         response = {

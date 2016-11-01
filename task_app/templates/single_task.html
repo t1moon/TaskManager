@@ -4,7 +4,7 @@
 
     <!-- Edit -->
     <button class="edit-button">Edit</button>
-    <button class="delete-button">Delete</button>
+    <button class="delete-button" type="submit">Delete</button>
     <!-- Календарь -->
     <form class="uk-form">
         <div class="uk-form-icon">
@@ -20,5 +20,6 @@
             <a class="blog-post-meta" href="{% url 'tag' t.title %}">{{ t.title }}</a>
         {% endfor %}
     </p>
+    <div>{{ task.is_deleted }}</div>
 </div><!-- /.blog-post -->
 
