@@ -63,9 +63,14 @@ def edit_task(request):
     #     return HttpResponse(json.dumps(response), content_type='application/json')
     if request.is_ajax() and request.method == 'POST':
         t_id = request.POST.get('task_id')
-        new_title = request.POST.get('new_title')
         task = Task.objects.get(id=t_id)
-        task.title = new_title
+
+        if request.POST.get('new_title') is not None:
+            task.title = request.POST.get('new_title')
+
+        if request.POST.get('new_deadline') is not None:
+            task.deadline = request.POST.get('new_deadline')
+
         task.save()
         response = {
             'STATUS': 'OK',
@@ -82,13 +87,13 @@ def tag(request, tag_name):
     # return render(request, 'tag.html', {"tasks": page, "tag_name": tag_name})
 
 
+@csrf_exempt
 def add_task(request):
-    if request.POST:
+    if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index')
-
     else:
         form = TaskForm()
     return render(request, 'add_task_modal.html', {"form": form})

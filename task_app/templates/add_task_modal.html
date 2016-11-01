@@ -4,7 +4,7 @@
 </button>
 
 <!-- Modal -->
-<form class="uk-form" action="{% url 'add_task' %}" method="POST">
+<form class="uk-form add_task_form" action="{% url 'add_task' %}" method="POST">
 <div id="add_task_modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -24,10 +24,10 @@
                     </div>
 
 
-                    <div class="uk-form-row">
-                        {{ form.description }}
+{#                    <div class="uk-form-row">#}
+{#                        {{ form.description }}#}
 {#                        <textarea rows=10 placeholder="Описание" class="uk-form-new-task-desc"></textarea>#}
-                    </div>
+{#                    </div>#}
                     <!-- Category and deadline -->
                     <div class="uk-form-row">
                         {{ form.tags }}

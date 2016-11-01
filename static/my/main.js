@@ -2,6 +2,9 @@
  * Created by timur on 19.10.16.
  */
 $(document).ready(function () {
+
+    // Delete
+
     $(".delete-button").on("click", function () {
         var $task = $(this).parent()
         var taskid = $(this).parent().attr('data-taskid')
@@ -47,12 +50,19 @@ $(document).ready(function () {
 //
 //        })
 //    });
+    //
+
+
+    //Edit text
+
+
     $(".edit-button").on("click", function () {
         var taskid = $(this).parent().attr('data-taskid')
-        $(this).siblings(".blog-post-title").prop('readonly', false).focus()
-        $(this).siblings(".blog-post-title").keypress(function (e) {
+        $(this).parent().children(".input-group").find(".blog-post-title").prop('readonly', false).focus()
+        $(this).parent().children(".input-group").find(".blog-post-title").keypress(function (e) {
             if (e.which == 13) {
                 $(this).prop('readonly', true)
+                $(this).blur()
                 var new_title = $(this).val()
                 $.ajax({
                     url: '/edit_task',
@@ -66,14 +76,44 @@ $(document).ready(function () {
                     error: function (xhr, status, error) {
                         console.log(xhr.responseText + ' ' + status + ' ' + error);
                     }
-
                 })
             }
         })
-
     })
 
+    $(".uk-form-deadline").on("change", function () {
+        var taskid = $(this).parent().parent().parent().parent($(".blog-post")).attr('data-taskid')
+        var new_deadline = $(this).val()
+        console.log(new_deadline)
+        $.ajax({
+            url: '/edit_task',
+            type: 'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            data: {task_id: taskid, new_deadline: new_deadline},
+            success: function () {
+                console.log("task edited" + taskid)
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText + ' ' + status + ' ' + error);
+            }
+        })
+    })
+//    Validation
+
+$('.add_task_form').validate({ // initialize the plugin
+    rules: {
+        title: {
+            required: true,
+        },
+        tags: {
+            required: true,
+        }
+    }
 });
+
+})
+;
 
 
 
