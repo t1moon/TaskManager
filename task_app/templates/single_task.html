@@ -1,10 +1,11 @@
+{% include "edit_task.html" %}
 <div class="blog-post" data-taskid="{{ task.id }}">
     <input type="checkbox" class="checkbox" style="float: left">
     <input class="blog-post-title" value="{{ task.title }}">
 
-    <!-- Edit -->
+    <!-- Edit & Delete -->
     <button class="edit-button">Edit</button>
-    <button class="delete-button" type="submit">Delete</button>
+    <button class="delete-button">Delete</button>
     <!-- Календарь -->
     <form class="uk-form">
         <div class="uk-form-icon">
@@ -20,6 +21,5 @@
             <a class="blog-post-meta" href="{% url 'tag' t.title %}">{{ t.title }}</a>
         {% endfor %}
     </p>
-    <div>{{ task.is_deleted }}</div>
 </div><!-- /.blog-post -->
 

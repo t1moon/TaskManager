@@ -22,5 +22,32 @@ $(document).ready(function(){
 
         })
     });
+
+    $(".edit-button").on( "click", function(){
+        var $task = $(this).parent()
+        var taskid = $(this).parent().attr('data-taskid')
+        $.ajax({
+            url: '/edit_task/' + taskid,
+            type: 'GET',
+            contentType: 'application/x-www-form-urlencoded',
+	    	dataType: 'json',
+            success: function(data) {
+                $("#edit_task_modal"+taskid).modal()
+                $(".uk-form-new-task-name").val(data.title)
+                $(".uk-form-new-task-description").val(data.description)
+                $.each(data.tags, function(index, value) {
+                    console.log(value)
+                    $(".uk-form-new-task-tag").val($(".uk-form-new-task-tag").val() + value);
+                    $(".uk-form-new-task-tag").val($(".uk-form-new-task-tag").val() + ', ')
+                })
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr.responseText + ' ' + status + ' ' + error);
+			}
+
+        })
+    });
 });
+
+
 

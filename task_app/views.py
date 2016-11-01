@@ -47,6 +47,30 @@ def delete_task(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
 
+@csrf_exempt
+def edit_task(request, t_id):
+    if request.is_ajax() and request.method == 'GET':
+        task = Task.objects.get(id=t_id)
+        tags = task.tags.all()
+        tag_titles = []
+        for tag in tags:
+            tag_titles.append(tag.title)
+        response = {
+            'title': task.title,
+            'description': task.description,
+            'tags': tag_titles
+        }
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = TaskForm()
+        return render(request, 'edit_task.html', {"form": form})
+
 def tag(request, tag_name):
     tasks = Task.objects.tag(tag_name)
     tags = Tag.objects.all()
