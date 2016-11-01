@@ -2,7 +2,6 @@
 {% block content %}
     {% for task in tasks %}
         {% include "single_task.html" %}
-        {% include 'show_task_modal.html' %}
     {% endfor %}
     {% include "pagination.html" with page=tasks %}
 {% endblock %}
