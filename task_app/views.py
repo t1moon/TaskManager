@@ -48,7 +48,7 @@ def delete_task(request):
 
 
 @csrf_exempt
-def edit_task(request, t_id):
+def edit_task(request):
     # if request.is_ajax() and request.method == 'GET':
     #     task = Task.objects.get(id=t_id)
     #     tags = task.tags.all()

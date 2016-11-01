@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^add_task$', task_app.views.add_task, name='add_task'),
     url(r'^edit_task$', task_app.views.edit_task, name='edit_task'),
     url(r'^delete_task$', task_app.views.delete_task, name='delete_task'),
-    url(r'^edit_task/(?P<t_id>\d+)/$', task_app.views.edit_task, name='edit_task'),
+    url(r'^edit_task/$', task_app.views.edit_task, name='edit_task'),
     url(r'^show_task$', task_app.views.show_task, name='show_task'),
     url(r'^tag/(?P<tag_name>[\w\-!@#$%&*;]+)/$', task_app.views.tag, name='tag'),
 ]
