@@ -160,6 +160,7 @@ h6, .h6 {
   font-size: 20px;
   float: left;
   width: 77%;
+  border: none;
 }
 .blog-post-meta {
   margin-top: 5px;

@@ -1,27 +1,15 @@
+from django.views.decorators.csrf import csrf_exempt
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView
 
 from task_app.forms import TaskForm
 from task_app.models import Task, Tag
-
-tasks = []
-categories = []
-tags =[]
-
-# for i in range(15):
-#     tasks.append({
-#         "title": 'ML Cup fixes',
-#         "description": 'blabla'
-#     })
-# for i in range(5):
-#     categories.append({
-#         "title": 'Personal'
-#     })
-
+import json
 
 def paginate(object_list, request, on_list):
     list = object_list
@@ -44,6 +32,45 @@ def index(request):
     page = paginate(tasks, request, 10)
     form = TaskForm()
     return render(request, 'index.html', {"tasks": page, "tags": tags, "form": form})
+
+
+@csrf_exempt
+def delete_task(request):
+    if request.method == 'POST':
+        t_id = request.POST.get('task_id')
+        task = Task.objects.get(id=t_id)
+        task.is_deleted = True
+        task.save()
+        response = {
+            'STATUS': 'OK',
+        }
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+@csrf_exempt
+def edit_task(request, t_id):
+    # if request.is_ajax() and request.method == 'GET':
+    #     task = Task.objects.get(id=t_id)
+    #     tags = task.tags.all()
+    #     tag_titles = []
+    #     for tag in tags:
+    #         tag_titles.append(tag.title)
+    #     response = {
+    #         'title': task.title,
+    #         'description': task.description,
+    #         'tags': tag_titles
+    #     }
+    #     return HttpResponse(json.dumps(response), content_type='application/json')
+    if request.is_ajax() and request.method == 'POST':
+        t_id = request.POST.get('task_id')
+        new_title = request.POST.get('new_title')
+        task = Task.objects.get(id=t_id)
+        task.title = new_title
+        task.save()
+        response = {
+            'STATUS': 'OK',
+        }
+        return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def tag(request, tag_name):
