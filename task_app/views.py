@@ -1,3 +1,5 @@
+from django.core.serializers import json
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from django.core.urlresolvers import reverse
@@ -7,20 +9,6 @@ from django.views.generic import ListView, CreateView
 
 from task_app.forms import TaskForm
 from task_app.models import Task, Tag
-
-tasks = []
-categories = []
-tags =[]
-
-# for i in range(15):
-#     tasks.append({
-#         "title": 'ML Cup fixes',
-#         "description": 'blabla'
-#     })
-# for i in range(5):
-#     categories.append({
-#         "title": 'Personal'
-#     })
 
 
 def paginate(object_list, request, on_list):
@@ -44,6 +32,18 @@ def index(request):
     page = paginate(tasks, request, 10)
     form = TaskForm()
     return render(request, 'index.html', {"tasks": page, "tags": tags, "form": form})
+
+
+def task_deleted(request):
+    if request.is_ajax() and request.method == 'POST':
+        task_id = request.GET['id']
+        task = Task.objects.get(id=task_id)
+        task.is_deleted = True
+        task.save()
+        response = {
+            'STATUS': 'OK',
+        }
+        return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 def tag(request, tag_name):
