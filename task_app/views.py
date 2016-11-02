@@ -27,7 +27,14 @@ def paginate(object_list, request, on_list):
 
 
 def index(request):
-    tasks = Task.objects.new()
+    tasks = Task.objects.not_done()
+    tags = Tag.objects.all()
+    page = paginate(tasks, request, 10)
+    form = TaskForm()
+    return render(request, 'index.html', {"tasks": page, "tags": tags, "form": form})
+
+def done(request):
+    tasks = Task.objects.done()
     tags = Tag.objects.all()
     page = paginate(tasks, request, 10)
     form = TaskForm()
@@ -71,9 +78,18 @@ def edit_task(request):
         if request.POST.get('new_deadline') is not None:
             task.deadline = request.POST.get('new_deadline')
 
+        if request.POST.get('is_done') is not None:
+            is_done = request.POST.get('is_done')
+            if is_done == 'False' or is_done == 'false':
+                task.is_done = True
+                print (task.is_done)
+            else:
+                task.is_done = False
+                print (task.is_done)
         task.save()
         response = {
             'STATUS': 'OK',
+            'is_done': task.is_done
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 

@@ -1,10 +1,11 @@
-<div class="blog-post" data-taskid="{{ task.id }}">
+<div class="blog-post" data-taskid="{{ task.id }}"
+                        data-isdone="{{ task.is_done }}">
 
     <div class="input-group">
         <span class="input-group-addon">
-            <input type="checkbox" class="checkbox" style="float: left">
+            <button type="button" class="done-button close" style="float: left"><span class="glyphicon glyphicon-ok"></span></button>
         </span>
-        <input class="form-control blog-post-title" value="{{ task.title }}" readonly="true"
+        <input class="form-control blog-post-title {% if task.is_done %}title-done{% endif %}" value="{{ task.title }}" readonly="true"
                onfocus="this.value = this.value;">
         <!-- Календарь -->
         <form class="uk-form uk-form-calendar">

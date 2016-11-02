@@ -6,7 +6,7 @@ $(document).ready(function () {
     // Delete
 
     $(".delete-button").on("click", function () {
-        var $task = $(this).parent()
+        var task = $(this).parent()
         var taskid = $(this).parent().attr('data-taskid')
         console.log(taskid)
         $.ajax({
@@ -16,7 +16,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: {task_id: taskid},
             success: function () {
-                $task.remove()
+                task.remove()
                 console.log("task deleted" + taskid)
             },
             error: function (xhr, status, error) {
@@ -99,6 +99,40 @@ $(document).ready(function () {
             }
         })
     })
+
+    // Done
+    $(".done-button").on("click", function () {
+        var task = $(this).parent().parent().parent()
+        var task_title = $(this).parent().parent().find($(".blog-post-title"))
+        var taskid = $(this).parent().parent().parent().attr('data-taskid')
+        var is_done = task.attr('data-isdone')
+        $.ajax({
+            url: '/edit_task',
+            type: 'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            data: {task_id: taskid, is_done: is_done},
+            success: function (data) {
+                task.attr('data-isdone', data.is_done)
+                if (data.is_done) {
+                    console.log("TASK IS DONE")
+                    task_title.css('text-decoration', 'line-through');
+                    task.fadeOut("slow")
+                } else {
+                    console.log("TASK IS unDONE")
+                    task_title.css('text-decoration', 'none');
+                    task.fadeOut("slow")
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText + ' ' + status + ' ' + error);
+            }
+        })
+    })
+
+
+
+
 //    Validation
 
 $('.add_task_form').validate({ // initialize the plugin

@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^edit_task/$', task_app.views.edit_task, name='edit_task'),
     url(r'^show_task$', task_app.views.show_task, name='show_task'),
     url(r'^tag/(?P<tag_name>[\w\-!@#$%&*;]+)/$', task_app.views.tag, name='tag'),
+    url(r'^done$', task_app.views.done, name='done'),
+
 ]
