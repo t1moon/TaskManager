@@ -102,7 +102,11 @@ def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            author=Profile.objects.get(username=request.user.username)
+            username = request.user.username
+            if (username == ''):
+                author=Profile.objects.get(username='timur@mail.ru')
+            else:
+                author=Profile.objects.get(username=request.user.username)
             form.save(author)
             return redirect('index')
     else:

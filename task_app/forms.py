@@ -20,10 +20,10 @@ class TaskForm(forms.Form):
                                                                                'data-uk-datepicker': "{minDate: '1',format:'YYYY-MM-DD'}",
                                                                                'value': "%s" % deadline_default}))
 
-    def save(self,author):
+    def save(self, author):
         task = Task(title=self.cleaned_data['title'],
                     deadline=self.cleaned_data['deadline'],
-                    user = self.author)
+                    user=author)
         task.save()
         for tag in self.cleaned_data['tags'].replace(' ', '').split(','):
             t = Tag.objects.all().filter(title=tag).first()
