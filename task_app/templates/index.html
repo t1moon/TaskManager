@@ -7,7 +7,7 @@
 {% endblock %}
 {% block tag_block %}
     <ul class="uk-list uk-list-line">
-        <li><a href="{% url 'index' %}">Все задачи</a></li>
+        <li><a href="{% url 'index' %}">Все задачи<span class="count_right">({{ tasks_count }})</span></a></li>
         {#         <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}</a></li>#}
         {% for tag in tags %}
             <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href={% static "bootstrap/css/bootstrap.min.css" %} rel="stylesheet">
+    <link href={% static "my/main.css" %} rel="stylesheet">
+    <link href={% static "my/signup.css" %} rel="stylesheet">
+</head>
+<body>
+
+<div class="blog-masthead">
+    <div class="container">
+        <nav class="blog-nav">
+            <a class="blog-nav-item" href="{% url 'index' %}">Task</a>
+            <a class="blog-nav-item" href="#">Log in</a>
+            <a class="blog-nav-item active" href="{% url 'signup' %}">Sign up</a>
+        </nav>
+    </div>
+</div>
+
+<!-- MAIN PART -->
+<div>
+    <div class="container">
+        <div class="col-md-6">
+            <div id="logbox">
+                <form id="signup" method="post" action="{% url 'signup' %}">
+                    <h1>Create an Account</h1>
+                    {{ form.username }}
+                    {% for error in form.username.errors %}
+                        <div class=" alert  alert-danger alert-custom" role="alert">
+                            <a href="#" class="alert-link">{{ error }}</a>
+                        </div>
+                    {% endfor %}
+
+                    {{ form.password }}
+                    {{ form.password_repeat }}
+                    {% for error in form.password.errors %}
+                        <div class=" alert  alert-danger alert-custom" role="alert">
+                            <a href="#" class="alert-link">{{ error }}</a>
+                        </div>
+                    {% endfor %}
+
+                    <input type="submit" value="Sign Up!" class="btn btn-default btn-lg btn-block"/>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src={% static "bootstrap/js/bootstrap.min.js" %}></script>
+<script src={% static "bootstrap/js/jquery.min.js" %}></script>
+</body>
+</html>

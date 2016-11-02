@@ -7,9 +7,13 @@ from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView
 
-from task_app.forms import TaskForm
-from task_app.models import Task, Tag
+from task_app.forms import TaskForm, UserSignupForm
+from task_app.models import Task, Tag, Profile
 import json
+
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login, logout as auth_logout
+
 
 def paginate(object_list, request, on_list):
     list = object_list
@@ -28,10 +32,11 @@ def paginate(object_list, request, on_list):
 
 def index(request):
     tasks = Task.objects.not_done()
+    tasks_count = tasks.count()
     tags = Tag.objects.all()
     page = paginate(tasks, request, 10)
     form = TaskForm()
-    return render(request, 'index.html', {"tasks": page, "tags": tags, "form": form})
+    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
 
 def done(request):
     tasks = Task.objects.done()
@@ -115,12 +120,20 @@ def add_task(request):
     return render(request, 'add_task_modal.html', {"form": form})
 
 
-def show_task(request):
-    task_id = None
-    if request.method == 'GET':
-        task_id = request.GET['task_id']
-    if task_id:
-        task = Task.objects.get(id=int(task_id))
-        if task:
-            title = task.title
-    return HttpResponse(title)
+@csrf_exempt
+def signup(request):
+    if request.POST:
+        form = UserSignupForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            profile = Profile.objects.create_user(username=username, password=password)
+            profile.save()
+            user = authenticate(username=username, password=password)
+            auth_login(request, user)
+            return redirect('/')
+        else:
+            return render(request, 'signup.html', {"form": form})
+    else:
+        form = UserSignupForm()
+    return render(request, 'signup.html', {"form": form})
