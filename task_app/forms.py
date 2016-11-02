@@ -20,10 +20,10 @@ class TaskForm(forms.Form):
                                                                                'data-uk-datepicker': "{minDate: '1',format:'YYYY-MM-DD'}",
                                                                                'value': "%s" % deadline_default}))
 
-    def save(self):
+    def save(self,author):
         task = Task(title=self.cleaned_data['title'],
-                    # description=self.cleaned_data['description'],
-                    deadline=self.cleaned_data['deadline'])
+                    deadline=self.cleaned_data['deadline'],
+                    user = self.author)
         task.save()
         for tag in self.cleaned_data['tags'].replace(' ', '').split(','):
             t = Tag.objects.all().filter(title=tag).first()
@@ -66,12 +66,13 @@ class UserSignupForm(forms.Form):
 
 
 class UserLoginForm(forms.Form):
-    email = forms.EmailField(label='Email', max_length=100, widget=forms.TextInput(
-        attrs={'class': 'form-control reg',
-               'required': 'required'}))
+    username = forms.EmailField(label='Email', max_length=100, widget=forms.EmailInput(
+        attrs={'class': 'input pass',
+               'required': 'required',
+               'placeholder': 'Email address'}))
     password = forms.CharField(label='Password', max_length=50,
-                               widget=forms.PasswordInput(attrs={'class': 'form-control reg password',
-                                                                 'placeholder': 'Password length (minimum 5)',
+                               widget=forms.PasswordInput(attrs={'class': 'input pass',
+                                                                   'placeholder': 'Password (more than 5 char)',
                                                                  'pattern': '.{5,}', 'required': 'required'}))
     redirect = forms.CharField(widget=forms.HiddenInput, label='')
 

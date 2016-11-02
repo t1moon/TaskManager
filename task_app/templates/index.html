@@ -1,28 +1,54 @@
 {% extends "base.html" %}
+
 {% block content %}
-    {% for task in tasks %}
-        {% include "single_task.html" %}
-    {% endfor %}
-    {% include "pagination.html" with page=tasks %}
+<div class="container">
+    <div class="blog-header">
+        <h1 class="blog-title">Задачи</h1>
+        {% include "add_task_modal.html" %}
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            {% for task in tasks %}
+                {% include "single_task.html" %}
+            {% endfor %}
+            {% include "pagination.html" with page=tasks %}
+        </div><!-- /.blog-main -->
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+            <div class="sidebar-module sidebar-module-category">
+                <h2>Теги</h2>
+                    <ul class="uk-list uk-list-line">
+                        <li><a href="{% url 'index' %}">Все задачи<span
+                                class="count_right">({{ tasks_count }})</span></a></li>
+                        {#         <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}</a></li>#}
+                        {% for tag in tags %}
+                            <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}
+                                <span class="count_right">({{ tag.task_set.count }})</span></a></li>
+                        {% endfor %}
+                        <li><a href="#">Без тега</a></li>
+                    </ul>
+
+            </div>
+            <div class="sidebar-module-status">
+                <h2>Статус</h2>
+                    <ul class="uk-list uk-list-line">
+                        <ul class="uk-list uk-list-line">
+                            <li><a href="{% url 'index' %}">Не сделано<span class="count_right"></span></a>
+                            </li>
+                            <li><a href="{% url 'done' %}">Сделано<span class="count_right"></span></a>
+                        </ul>
+                    </ul>
+            </div>
+        </div><!-- /.blog-sidebar -->
+
+    </div><!-- /.row -->
+
+</div><!-- /.container -->
 {% endblock %}
-{% block tag_block %}
-    <ul class="uk-list uk-list-line">
-        <li><a href="{% url 'index' %}">Все задачи<span class="count_right">({{ tasks_count }})</span></a></li>
-        {#         <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}</a></li>#}
-        {% for tag in tags %}
-            <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}
-                <span class="count_right">({{ tag.task_set.count }})</span></a></li>
-        {% endfor %}
-        <li><a href="#">Без тега</a></li>
-    </ul>
-{% endblock %}
-{% block done_block %}
-    <ul class="uk-list uk-list-line">
-        <ul class="uk-list uk-list-line">
-            <li><a href="{% url 'index' %}">Не сделано<span class="count_right"></span></a>
-            </li>
-            <li><a href="{% url 'done' %}">Сделано<span class="count_right"></span></a>
-        </ul>
-    </ul>
-{% endblock %}
+
+
+
+
+
+
 

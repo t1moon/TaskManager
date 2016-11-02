@@ -1,13 +1,15 @@
+from django.contrib.auth.decorators import login_required
+
 from django.views.decorators.csrf import csrf_exempt
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, QueryDict
+from django.http import HttpResponse, QueryDict, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView
 
-from task_app.forms import TaskForm, UserSignupForm
+from task_app.forms import TaskForm, UserSignupForm, UserLoginForm
 from task_app.models import Task, Tag, Profile
 import json
 
@@ -38,6 +40,7 @@ def index(request):
     form = TaskForm()
     return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
 
+
 def done(request):
     tasks = Task.objects.done()
     tags = Tag.objects.all()
@@ -61,18 +64,6 @@ def delete_task(request):
 
 @csrf_exempt
 def edit_task(request):
-    # if request.is_ajax() and request.method == 'GET':
-    #     task = Task.objects.get(id=t_id)
-    #     tags = task.tags.all()
-    #     tag_titles = []
-    #     for tag in tags:
-    #         tag_titles.append(tag.title)
-    #     response = {
-    #         'title': task.title,
-    #         'description': task.description,
-    #         'tags': tag_titles
-    #     }
-    #     return HttpResponse(json.dumps(response), content_type='application/json')
     if request.is_ajax() and request.method == 'POST':
         t_id = request.POST.get('task_id')
         task = Task.objects.get(id=t_id)
@@ -87,10 +78,8 @@ def edit_task(request):
             is_done = request.POST.get('is_done')
             if is_done == 'False' or is_done == 'false':
                 task.is_done = True
-                print (task.is_done)
             else:
                 task.is_done = False
-                print (task.is_done)
         task.save()
         response = {
             'STATUS': 'OK',
@@ -113,7 +102,8 @@ def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save()
+            author=Profile.objects.get(username=request.user.username)
+            form.save(author)
             return redirect('index')
     else:
         form = TaskForm()
@@ -137,3 +127,31 @@ def signup(request):
     else:
         form = UserSignupForm()
     return render(request, 'signup.html', {"form": form})
+
+
+@csrf_exempt
+def login(request):
+    text_error = None
+    if request.POST:
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            redirect = form.cleaned_data.get('redirect', '/')
+            if user:
+                auth_login(request, user)
+                return HttpResponseRedirect(redirect)
+            else:
+                text_error = 'Wrong password or login'
+        else:
+            text_error = 'Incorrect filled fields'
+    else:
+        form = UserLoginForm(initial={'redirect': request.GET.get('next', '/')})
+    return render(request, 'login.html', {"form": form, "text_error": text_error})
+
+
+@login_required()
+def logout(request):
+    auth_logout(request)
+    return redirect('signup')

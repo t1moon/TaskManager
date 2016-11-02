@@ -25,12 +25,12 @@ class Tag(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
     deadline = models.DateField(default=datetime.date.today())
     is_deleted = models.BooleanField(default = False)
     is_done = models.BooleanField(default = False)
     created_at = models.DateTimeField(default=datetime.datetime.now)
     tags = models.ManyToManyField(Tag)
+    user = models.ForeignKey('Profile')
     objects = TaskManager()
 
 

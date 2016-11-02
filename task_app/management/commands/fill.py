@@ -11,24 +11,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fake = Factory.create('en_US')
-        # Fill users
-        # for i in range(0, 10):
-        #     u = Profile.objects.create_user(username=str(i), email=fake.email(), password=fake.word())
-        #     u.save()
-
-        u = Profile.objects.create_user(username=fake.word(), email=fake.email(), password='12345')
+        # Fill user
+        u = Profile.objects.create_user(username="timur@mail.ru", password="12345")
         u.save()
 
         # Fill the tasks and tags
         for i in range(1, 10):
-            user = Profile.objects.get(username=u.username)
             task = Task(
-                description=fake.text(),
                 title=fake.name() + '?',
                 deadline=datetime.datetime.now(),
                 is_done=0,
                 is_deleted=0,
                 created_at=datetime.datetime.now(),
+                user=u,
             )
             task.save()
             for j in range(1,3):

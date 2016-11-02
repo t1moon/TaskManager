@@ -19,70 +19,36 @@
     <link href={% static "uikit/css/uikit.min.css" %} rel="stylesheet">
     <link href={% static "uikit/css/uikit.docs.min.css" %} rel="stylesheet">
     <link href={% static "uikit/css/components/datepicker.min.css" %} rel="stylesheet">
-{#    <link href={% static "semantic/semantic.min.css" %} rel="stylesheet">#}
+    {#    <link href={% static "semantic/semantic.min.css" %} rel="stylesheet">#}
     <link href={% static "semantic/components/button.css" %} rel="stylesheet">
 
     <link href={% static "my/main.css" %} rel="stylesheet">
+    <link href={% static "my/signup.css" %} rel="stylesheet">
 
 </head>
 
 <body>
 
+
 <div class="blog-masthead">
     <div class="container">
         <nav class="blog-nav">
-            <a class="blog-nav-item active" href="#">Task</a>
-            <a class="blog-nav-item" href="#">Log in</a>
-            <a class="blog-nav-item" href="{% url 'signup' %}">Sign up</a>
+            <a class="blog-nav-item
+            {% if request.path == '/' %}active{% endif %}" href="{% url 'index' %}">Task</a>
+            <a class="blog-nav-item
+            {% if request.path == '/signup' %}active{% endif %}" href="{% url 'signup' %}">Sign up</a>
+            {% if user.is_authenticated %}
+                <a class="blog-nav-item" style="float: right">{{ user.username }}</a>
+                <a class="blog-nav-item" style="float: right" href="{% url 'logout' %}">Log out</a>
+            {% else %}
+                <a class="blog-nav-item" href="{% url 'login' %}">Log in</a>
+            {% endif %}
+
         </nav>
     </div>
-{#    <div class="uk-comment uk-comment-user">#}
-{#        <header class="uk-comment-header">#}
-{#            <img class="uk-comment-avatar img-circle user-avatar" src={% static "images/NinjaAvatar.png" %} alt="">#}
-{#            <h4 class="uk-comment-title">Ninja</h4>#}
-{#            <div class="uk-comment-meta">...</div>#}
-{#        </header>#}
-{#    </div>#}
 </div>
-
-<div class="container">
-
-    <div class="blog-header">
-        <h1 class="blog-title">Задачи</h1>
-        {% include "add_task_modal.html" %}
-        {#        <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>#}
-    </div>
-
-    <div class="row">
-
-        <div class="col-sm-8 blog-main">
-            {% block content %}
-            {% endblock content %}
-{#            <nav>#}
-{#                <ul class="pager">#}
-{#                    <li><a href="#">Previous</a></li>#}
-{#                    <li><a href="#">Next</a></li>#}
-{#                </ul>#}
-{#            </nav>#}
-
-        </div><!-- /.blog-main -->
-
-        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-            <div class="sidebar-module sidebar-module-category">
-                <h2>Теги</h2>
-                {% block tag_block %}
-                {% endblock tag_block %}
-            </div>
-            <div class="sidebar-module-status">
-                <h2>Статус</h2>
-                {% block done_block %}
-                {% endblock %}
-            </div>
-        </div><!-- /.blog-sidebar -->
-
-    </div><!-- /.row -->
-
-</div><!-- /.container -->
+{% block content %}
+{% endblock %}
 
 <footer class="blog-footer">
     <p>Made with love</p>

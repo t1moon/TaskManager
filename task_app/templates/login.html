@@ -7,7 +7,7 @@
     <div class="container">
         <div class="col-md-6">
             <div id="logbox">
-                <form id="signup" method="post" action="{% url 'signup' %}">
+                <form id="login" method="post" action="{% url 'login' %}">
                     <h1>Create an Account</h1>
                     {{ form.username }}
                     {% for error in form.username.errors %}
@@ -32,4 +32,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
