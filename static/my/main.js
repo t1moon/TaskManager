@@ -132,7 +132,6 @@ $(document).ready(function () {
 
 
 
-
 //    Validation
 
 $('.add_task_form').validate({ // initialize the plugin

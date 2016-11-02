@@ -1,11 +1,11 @@
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-default btn-lg btn-add-task"
-        data-toggle="modal" data-target="#add_task_modal">Добавить задачу
+        data-toggle="modal" data-target=".add_task_modal">Добавить задачу
 </button>
 
 <!-- Modal -->
 <form class="uk-form add_task_form" action="{% url 'add_task' %}" method="POST">
-<div id="add_task_modal" class="modal fade" role="dialog">
+<div class="add_task_modal modal fade" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->

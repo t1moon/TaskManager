@@ -34,7 +34,7 @@ def paginate(object_list, request, on_list):
 
 def index(request):
     tasks = Task.objects.not_done()
-    tasks_count = tasks.count()
+    tasks_count = Task.objects.all().count()
     tags = Tag.objects.all()
     page = paginate(tasks, request, 10)
     form = TaskForm()
@@ -90,12 +90,11 @@ def edit_task(request):
 
 def tag(request, tag_name):
     tasks = Task.objects.tag(tag_name)
+    tasks_count = Task.objects.all().count()
     tags = Tag.objects.all()
     page = paginate(tasks, request, 10)
-    return render(request, 'index.html', {"tasks": page, "tags": tags})
-
-    # return render(request, 'tag.html', {"tasks": page, "tag_name": tag_name})
-
+    form = TaskForm()
+    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
 
 @csrf_exempt
 def add_task(request):
