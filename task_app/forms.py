@@ -74,7 +74,6 @@ class UserLoginForm(forms.Form):
                                widget=forms.PasswordInput(attrs={'class': 'input pass',
                                                                    'placeholder': 'Password (more than 5 char)',
                                                                  'pattern': '.{5,}', 'required': 'required'}))
-    redirect = forms.CharField(widget=forms.HiddenInput, label='')
 
 
 

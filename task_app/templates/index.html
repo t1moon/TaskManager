@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if user.is_authenticated %}
 <div class="container">
     <div class="blog-header">
         <h1 class="blog-title">Задачи</h1>
@@ -44,6 +45,9 @@
     </div><!-- /.row -->
 
 </div><!-- /.container -->
+{% else %}
+    <h1>Залогиньтесь</h1>
+{% endif %}
 {% endblock %}
 
 
