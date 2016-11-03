@@ -41,7 +41,8 @@
                 <a class="blog-nav-item" style="float: right">{{ user.username }}</a>
                 <a class="blog-nav-item" style="float: right" href="{% url 'logout' %}">Log out</a>
             {% else %}
-                <a class="blog-nav-item" href="{% url 'login' %}">Log in</a>
+                <a class="blog-nav-item
+                 {% if request.path == '/login' %}active{% endif %}" href="{% url 'login' %}">Log in</a>
             {% endif %}
 
         </nav>

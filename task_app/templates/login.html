@@ -8,23 +8,17 @@
         <div class="col-md-6">
             <div id="logbox">
                 <form id="login" method="post" action="{% url 'login' %}">
-                    <h1>Create an Account</h1>
+                    <h1>Log in</h1>
                     {{ form.username }}
-                    {% for error in form.username.errors %}
-                        <div class=" alert  alert-danger alert-custom" role="alert">
-                            <a href="#" class="alert-link">{{ error }}</a>
-                        </div>
-                    {% endfor %}
-
                     {{ form.password }}
-                    {{ form.password_repeat }}
-                    {% for error in form.password.errors %}
-                        <div class=" alert  alert-danger alert-custom" role="alert">
-                            <a href="#" class="alert-link">{{ error }}</a>
-                        </div>
-                    {% endfor %}
 
-                    <input type="submit" value="Sign Up!" class="btn btn-default btn-lg btn-block"/>
+                    {% if text_error != None %}
+                        <div class=" alert  alert-danger alert-custom" role="alert">
+                            <a href="#" class="alert-link">{{ text_error }}</a>
+                        </div>
+                    {% endif %}
+
+                    <input type="submit" value="Login!" class="btn btn-default btn-lg btn-block"/>
 
 
                 </form>
