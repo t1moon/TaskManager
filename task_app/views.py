@@ -33,6 +33,9 @@ def paginate(object_list, request, on_list):
 
 
 def index(request):
+    user = request.user
+    if (not user.is_authenticated()):
+        return redirect('login')
     tasks = Task.objects.not_done(request.user)
     tasks_count = Task.objects.all().count()
     tags = Tag.objects.all()
