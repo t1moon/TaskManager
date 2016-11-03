@@ -9,14 +9,14 @@ from django.db import models
 
 
 class TaskManager(models.Manager):
-    def not_done(self):
-        return self.filter(is_deleted=False).filter(is_done=False).order_by('-created_at')
+    def not_done(self,author):
+        return self.filter(is_deleted=False).filter(is_done=False).filter(user=author).order_by('-created_at')
 
-    def done(self):
-        return self.filter(is_done=True).order_by('-created_at')
+    def done(self,author):
+        return self.filter(is_done=True).filter(user=author).order_by('-created_at')
 
-    def tag(self, tag_name):
-        return self.filter(tags__title__exact=tag_name).order_by('-created_at')
+    def tag(self, tag_name, author):
+        return self.filter(tags__title__exact=tag_name).filter(user=author).order_by('-created_at')
 
 
 class Tag(models.Model):

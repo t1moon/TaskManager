@@ -33,7 +33,7 @@ def paginate(object_list, request, on_list):
 
 
 def index(request):
-    tasks = Task.objects.not_done()
+    tasks = Task.objects.not_done(request.user)
     tasks_count = Task.objects.all().count()
     tags = Tag.objects.all()
     page = paginate(tasks, request, 10)
@@ -42,7 +42,7 @@ def index(request):
 
 
 def done(request):
-    tasks = Task.objects.done()
+    tasks = Task.objects.done(request.user)
     tags = Tag.objects.all()
     page = paginate(tasks, request, 10)
     form = TaskForm()
@@ -89,7 +89,7 @@ def edit_task(request):
 
 
 def tag(request, tag_name):
-    tasks = Task.objects.tag(tag_name)
+    tasks = Task.objects.tag(tag_name, request.user)
     tasks_count = Task.objects.all().count()
     tags = Tag.objects.all()
     page = paginate(tasks, request, 10)
