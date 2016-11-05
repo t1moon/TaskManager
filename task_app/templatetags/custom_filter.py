@@ -15,3 +15,4 @@ def relative_page_list(paginator, page_range):
     if page_max > last_page_number:
         page_max = last_page_number
     return list(list(paginator.paginator.page_range)[page_min:page_max])
+

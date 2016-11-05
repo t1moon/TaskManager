@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+
 {% block content %}
     {% if user.is_authenticated %}
         <div class="container">
@@ -22,11 +23,12 @@
                             <li><a href="{% url 'index' %}">Все задачи<span
                                     class="count_right">({{ tasks_count }})</span></a></li>
                             {#         <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}</a></li>#}
-                            {% for tag in tags %}
+                            {% for tag in tags%}
                                 <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}
-                                    <span class="count_right">({{ tag.task_set.count }})</span></a></li>
+                                    <span class="count_right">({{ tag.num_tasks }})</span></a></li>
                             {% endfor %}
-                            <li><a href="#">Без тега</a></li>
+                            <li><a href="{% url 'tag' None %}">Без тега
+                            <span class="count_right">({{ tasks_notag_count }})</span></a></li>
                         </ul>
 
                     </div>

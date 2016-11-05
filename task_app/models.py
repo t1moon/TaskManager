@@ -23,6 +23,10 @@ class TaskManager(models.Manager):
 
 
     def tag(self, tag_name, author):
+        if tag_name == 'None':
+            return self.filter(tags__isnull=True).filter(is_deleted=False).filter(is_done=False).\
+            filter(user=author).order_by('-created_at')
+
         return self.filter(tags__title__exact=tag_name).filter(is_deleted=False).filter(is_done=False).\
             filter(user=author).order_by('-created_at')
 
