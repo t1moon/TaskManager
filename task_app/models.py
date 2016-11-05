@@ -15,12 +15,21 @@ class TaskManager(models.Manager):
     def done(self,author):
         return self.filter(is_done=True).filter(user=author).order_by('-created_at')
 
+    def all(self,author):
+        return self.filter(is_deleted=False).filter(user=author).order_by('-created_at')
+
+    def deadline_sort(self, author):
+        return self.filter(is_deleted=False).filter(is_done=False).filter(user=author).order_by('-deadline')
+
+
     def tag(self, tag_name, author):
-        return self.filter(tags__title__exact=tag_name).filter(user=author).order_by('-created_at')
+        return self.filter(tags__title__exact=tag_name).filter(is_deleted=False).filter(is_done=False).\
+            filter(user=author).order_by('-created_at')
 
 
 class Tag(models.Model):
     title = models.CharField(max_length=255)
+
 
 
 class Task(models.Model):

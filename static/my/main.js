@@ -134,16 +134,16 @@ $(document).ready(function () {
 
 //    Validation
 
-$('.add_task_form').validate({ // initialize the plugin
-    rules: {
-        title: {
-            required: true,
-        },
-        tags: {
-            required: true,
-        }
-    }
-});
+//$('.add_task_form').validate({ // initialize the plugin
+//    rules: {
+//        title: {
+//            required: true,
+//        },
+//        tags: {
+//            required: false,
+//        }
+//    }
+//});
 
 })
 ;

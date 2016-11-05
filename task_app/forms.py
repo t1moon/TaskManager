@@ -9,9 +9,7 @@ class TaskForm(forms.Form):
     title = forms.CharField(label='Title', max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'uk-form-new-task-name',
                                                                                                         'placeholder':'Введите название',
                                                                                                         "name": "title"}))
-    # description = forms.CharField(label='Text', max_length=5000, widget=forms.Textarea(attrs={'class': 'uk-form-new-task-desc',
-    #                                                                                    "placeholder": "Описание..",
-    #                                                                                    'rows': '10'}))
+
     tags = forms.CharField(label='Tags', max_length=100, widget=forms.TextInput(attrs={'class': 'uk-form-new-task-tag',
                                                                                        "placeholder": "Введите теги через запятую",
                                                                                        "name": "tags"}))

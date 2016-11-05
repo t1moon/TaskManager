@@ -37,19 +37,56 @@ def index(request):
     if (not user.is_authenticated()):
         return redirect('login')
     tasks = Task.objects.not_done(request.user)
-    tasks_count = Task.objects.all().count()
-    tags = Tag.objects.all()
+    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
+    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user)
     page = paginate(tasks, request, 10)
     form = TaskForm()
     return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
 
 
 def done(request):
+    user = request.user
+    if (not user.is_authenticated()):
+        return redirect('login')
     tasks = Task.objects.done(request.user)
-    tags = Tag.objects.all()
+    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
+    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user)
     page = paginate(tasks, request, 10)
     form = TaskForm()
-    return render(request, 'index.html', {"tasks": page, "tags": tags, "form": form})
+    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
+
+
+def all_tasks(request):
+    user = request.user
+    if (not user.is_authenticated()):
+        return redirect('login')
+    tasks = Task.objects.all(request.user)
+    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
+    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user)
+    page = paginate(tasks, request, 10)
+    form = TaskForm()
+    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
+
+
+def deadline_sort(request):
+    user = request.user
+    if (not user.is_authenticated()):
+        return redirect('login')
+    tasks = Task.objects.deadline_sort(request.user)
+    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
+    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user)
+    page = paginate(tasks, request, 10)
+    form = TaskForm()
+    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
+
+
+def tag(request, tag_name):
+    tasks = Task.objects.tag(tag_name, request.user)
+    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
+    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user)
+    page = paginate(tasks, request, 10)
+    form = TaskForm()
+    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
 
 
 @csrf_exempt
@@ -90,14 +127,6 @@ def edit_task(request):
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 
-
-def tag(request, tag_name):
-    tasks = Task.objects.tag(tag_name, request.user)
-    tasks_count = Task.objects.all().count()
-    tags = Tag.objects.all()
-    page = paginate(tasks, request, 10)
-    form = TaskForm()
-    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count, "tags": tags, "form": form})
 
 @csrf_exempt
 def add_task(request):
