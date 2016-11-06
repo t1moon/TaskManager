@@ -1,22 +1,20 @@
+# -*- coding: utf-8 -*-
+import random
+import sha
+import datetime
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Sum, Case, When, IntegerField
-
+from django.core.mail import send_mail
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
-from django.core.urlresolvers import reverse
-from django.http import HttpResponse, QueryDict, HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView
-
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from task_app.forms import TaskForm, UserSignupForm, UserLoginForm
 from task_app.helper import prepare_context
 from task_app.models import Task, Tag, Profile
 import json
-
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login, logout as auth_logout
+from taskmanager.settings import EMAIL_HOST_USER
 
 
 def index(request):
@@ -41,7 +39,7 @@ def all_tasks(request):
     user = request.user
     if (not user.is_authenticated()):
         return redirect('login')
-    tasks = Task.objects.all(request.user)
+    tasks = Task.objects.all_tasks(request.user)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
@@ -105,7 +103,7 @@ def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            author=Profile.objects.get(username=request.user.username)
+            author = Profile.objects.get(username=request.user.username)
             form.save(author)
             return redirect('index')
         else:
@@ -127,16 +125,41 @@ def signup(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            profile = Profile.objects.create_user(username=username, password=password)
+            salt = sha.new(str(random.random())).hexdigest()[:5]
+            activation_key = sha.new(salt + username).hexdigest()
+            key_expires = datetime.datetime.today() + datetime.timedelta(2)
+            print ("key: ")
+            print key_expires
+            profile = Profile.objects.create_user(username=username, password=password,
+                                                  activation_key=activation_key, key_expires=key_expires)
+            profile.is_active = False
             profile.save()
-            user = authenticate(username=username, password=password)
-            auth_login(request, user)
-            return redirect('/')
+            email_subject = 'Account conformation'
+            email_body = '''Hello, %s, and thanks for signing up!
+            To activate your account, click this link within 48 hours: http://127.0.0.1:8000/confirm/%s''' % \
+                         (
+                             profile.username,
+                             profile.activation_key)
+            send_mail(email_subject,
+                      email_body,
+                      EMAIL_HOST_USER,
+                      [profile.username],
+                      fail_silently=False)
+            return render(request, 'signup.html', {"created": True})
         else:
             return render(request, 'signup.html', {"form": form})
     else:
         form = UserSignupForm()
     return render(request, 'signup.html', {"form": form})
+
+
+def confirm(request, activation_key):
+    profile = get_object_or_404(Profile, activation_key=activation_key)
+    if profile.key_expires < timezone.localtime(timezone.now()):
+        return render(request, 'confirm.html', {'expired': True})
+    profile.is_active = True
+    profile.save()
+    return render(request, 'confirm.html', {'success': True})
 
 
 @csrf_exempt
@@ -147,14 +170,18 @@ def login(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user:
-                auth_login(request, user)
-                return redirect('index')
+            profile = Profile.objects.get(username=username)
+            if (profile.is_active):
+                user = authenticate(username=username, password=password)
+                if user:
+                    auth_login(request, user)
+                    return redirect('index')
+                else:
+                    text_error = 'Неверный логин или пароль'
             else:
-                text_error = 'Wrong password or login'
+                text_error = 'Email не подтвержден'
         else:
-            text_error = 'Form is not valid'
+            text_error = 'Невалидная форма'
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {"form": form, "text_error": text_error})

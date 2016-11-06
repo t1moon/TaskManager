@@ -2,34 +2,43 @@
 {% load static %}
 
 {% block content %}
-<!-- MAIN PART -->
-<div>
-    <div class="container">
-        <div class="col-md-6">
-            <div id="logbox">
-                <form id="signup" method="post" action="{% url 'signup' %}">
-                    <h1>Create an Account</h1>
-                    {{ form.username }}
-                    {% for error in form.username.errors %}
-                        <div class=" alert  alert-danger alert-custom" role="alert">
-                            <a href="#" class="alert-link">{{ error }}</a>
-                        </div>
-                    {% endfor %}
+    <!-- MAIN PART -->
+    {% if created %}
+        <div class="row">
+            <div class="col-md-offset-2">
+                <h4>Please Confirm Your Email</h4>
+            </div>
+        </div>
 
-                    {{ form.password }}
-                    {{ form.password_repeat }}
-                    {% for error in form.password.errors %}
-                        <div class=" alert  alert-danger alert-custom" role="alert">
-                            <a href="#" class="alert-link">{{ error }}</a>
-                        </div>
-                    {% endfor %}
+    {% else %}
+    <div>
+        <div class="container">
+            <div class="col-md-6">
+                <div id="logbox">
+                    <form id="signup" method="post" action="{% url 'signup' %}">
+                        <h1>Create an Account</h1>
+                        {{ form.username }}
+                        {% for error in form.username.errors %}
+                            <div class=" alert  alert-danger alert-custom" role="alert">
+                                <a href="#" class="alert-link">{{ error }}</a>
+                            </div>
+                        {% endfor %}
 
-                    <input type="submit" value="Sign Up!" class="btn btn-default btn-lg btn-block"/>
+                        {{ form.password }}
+                        {{ form.password_repeat }}
+                        {% for error in form.password.errors %}
+                            <div class=" alert  alert-danger alert-custom" role="alert">
+                                <a href="#" class="alert-link">{{ error }}</a>
+                            </div>
+                        {% endfor %}
+
+                        <input type="submit" value="Sign Up!" class="btn btn-default btn-lg btn-block"/>
 
 
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    {% endif %}
 {% endblock %}

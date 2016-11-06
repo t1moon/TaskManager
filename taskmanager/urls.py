@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', task_app.views.index, name='index'),
     url(r'^signup$', task_app.views.signup, name='signup'),
+    url(r'^confirm/(?P<activation_key>\w+)/$', task_app.views.confirm, name='confirm'),
     url(r'^login$', task_app.views.login, name='login'),
     url(r'^logout$', task_app.views.logout, name='logout'),
     url(r'^add_task$', task_app.views.add_task, name='add_task'),

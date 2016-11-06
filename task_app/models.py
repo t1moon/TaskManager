@@ -6,6 +6,7 @@ from django.contrib.auth.models import User, UserManager
 from django.db import models
 
 # Create your models here.
+from django.utils import timezone
 
 
 class TaskManager(models.Manager):
@@ -15,7 +16,7 @@ class TaskManager(models.Manager):
     def done(self,author):
         return self.filter(is_done=True).filter(user=author).order_by('-created_at')
 
-    def all(self,author):
+    def all_tasks(self,author):
         return self.filter(is_deleted=False).filter(user=author).order_by('-created_at')
 
     def deadline_sort(self, author):
@@ -48,4 +49,6 @@ class Task(models.Model):
 
 
 class Profile(User):
+    activation_key = models.CharField(max_length=40, default='')
+    key_expires = models.DateTimeField(default=timezone.localtime(timezone.now()))
     objects = UserManager()

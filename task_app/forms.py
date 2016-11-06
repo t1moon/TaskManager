@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
 from django import forms
+from django.contrib.auth.models import User
+
 from task_app.models import Task, Tag, Profile
 from taskmanager import settings
 
@@ -78,6 +80,14 @@ class UserSignupForm(forms.Form):
             self.add_error('username', 'Данный email уже занят')
         else:
             return username
+
+    def save(self, new_data):
+        u = User.objects.create_user(new_data['username'],
+                                     new_data['email'],
+                                     new_data['password1'])
+        u.is_active = False
+        u.save()
+        return u
 
 
 class UserLoginForm(forms.Form):
