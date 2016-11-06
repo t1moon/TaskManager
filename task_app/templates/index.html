@@ -18,16 +18,20 @@
                 </div><!-- /.blog-main -->
                 <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                     <div class="sidebar-module sidebar-module-category">
+
                         <h2>Теги</h2>
                         <ul class="uk-list uk-list-line">
-                            <li><a href="{% url 'index' %}">Все теги<span
+                            <li><a href="{% url 'index' %}"
+                            class="{% if request.path == '/' %}active-link{% endif %}">Все теги<span
                                     class="count_right">({{ not_done_count }})</span></a></li>
-                            {#         <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}</a></li>#}
+
                             {% for tag in tags %}
                                 <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}
                                     <span class="count_right">({{ tag.task_set.count }})</span></a></li>
                             {% endfor %}
-                            <li><a href="{% url 'tag' None %}">Без тега
+
+                            <li><a href="{% url 'tag' None %}"
+                            class="{% if request.path == '/tag/None/' %}active-link{% endif %}">Без тега
                             <span class="count_right">({{ no_tag_count }})</span></a></li>
                         </ul>
 
@@ -36,9 +40,12 @@
                         <h2>Статус</h2>
                         <ul class="uk-list uk-list-line">
                             <ul class="uk-list uk-list-line">
-                                <li><a href="{% url 'not_done' %}">Не сделано<span class="count_right">({{ not_done_count }})</span></a></li>
-                                <li><a href="{% url 'done' %}">Сделано<span class="count_right">({{ done_count }})</span></a></li>
-                                <li><a href="{% url 'all' %}">Все<span class="count_right">({{ all_count }})</span></a></li>
+                                <li><a href="{% url 'not_done' %}"
+                                class="{% if request.path == '/not_done' %}active-link{% endif %}">Не сделано<span class="count_right">({{ not_done_count }})</span></a></li>
+                                <li><a href="{% url 'done' %}"
+                                class="{% if request.path == '/done' %}active-link{% endif %}">Сделано<span class="count_right">({{ done_count }})</span></a></li>
+                                <li><a href="{% url 'all' %}"
+                                class="{% if request.path == '/all' %}active-link{% endif %}">Все<span class="count_right">({{ all_count }})</span></a></li>
                             </ul>
                         </ul>
                     </div>
@@ -46,8 +53,10 @@
                         <h2>Сортировки</h2>
                         <ul class="uk-list uk-list-line">
                             <ul class="uk-list uk-list-line">
-                                <li><a href="{% url 'index' %}">По времени добавления</a></li>
-                                <li><a href="{% url 'deadline_sort' %}">По дедлайну</a></li>
+                                <li><a href="{% url 'index' %}"
+                                class="{% if request.path == '/' %}active-link{% endif %}">По времени добавления</a></li>
+                                <li><a href="{% url 'deadline_sort' %}"
+                                class="{% if request.path == '/deadline_sort' %}active-link{% endif %}">По дедлайну</a></li>
                             </ul>
                         </ul>
                     </div>

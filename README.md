@@ -4,9 +4,9 @@
 Используемая версия python = 2.7
 
 Для начала нужно поменять коннектор к базе данных mysql в settings.py на свою
-Далее создаём базу данных db_task:
+Далее создаём базу данных db_task (кодировка базы обязательно должна быть utf8_general_ci):
 в mysql под рутом:
-CREATE DATABASE `db_task` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+CREATE DATABASE `db_task` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 #Выполняем действия для наполнение её таблицами и данными:
 
