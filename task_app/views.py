@@ -66,6 +66,9 @@ def delete_task(request):
         task = Task.objects.get(id=t_id)
         task.is_deleted = True
         task.save()
+        tags = task.tags.all()
+        for tag in tags:
+            tag.task_set.remove(task)
         response = {
             'STATUS': 'OK',
         }
@@ -170,7 +173,11 @@ def login(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            profile = Profile.objects.get(username=username)
+            try:
+                profile = Profile.objects.get(username=username)
+            except:
+                text_error = 'Пользователь не найден'
+                return render(request, 'login.html', {"form": form, "text_error": text_error})
             if (profile.is_active):
                 user = authenticate(username=username, password=password)
                 if user:

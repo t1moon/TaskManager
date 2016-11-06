@@ -22,7 +22,6 @@ class TaskManager(models.Manager):
     def deadline_sort(self, author):
         return self.filter(is_deleted=False).filter(is_done=False).filter(user=author).order_by('-deadline')
 
-
     def tag(self, tag_name, author):
         if tag_name == 'None':
             return self.filter(tags__isnull=True).filter(is_deleted=False).filter(is_done=False).\
