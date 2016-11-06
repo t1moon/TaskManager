@@ -20,15 +20,15 @@
                     <div class="sidebar-module sidebar-module-category">
                         <h2>Теги</h2>
                         <ul class="uk-list uk-list-line">
-                            <li><a href="{% url 'index' %}">Все задачи<span
-                                    class="count_right">({{ tasks_count }})</span></a></li>
+                            <li><a href="{% url 'index' %}">Все теги<span
+                                    class="count_right">({{ not_done_count }})</span></a></li>
                             {#         <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}</a></li>#}
                             {% for tag in tags %}
                                 <li><a href="{% url 'tag' tag.title %}">{{ tag.title }}
                                     <span class="count_right">({{ tag.task_set.count }})</span></a></li>
                             {% endfor %}
                             <li><a href="{% url 'tag' None %}">Без тега
-                            <span class="count_right">({{ tasks_notag_count }})</span></a></li>
+                            <span class="count_right">({{ no_tag_count }})</span></a></li>
                         </ul>
 
                     </div>
@@ -36,9 +36,9 @@
                         <h2>Статус</h2>
                         <ul class="uk-list uk-list-line">
                             <ul class="uk-list uk-list-line">
-                                <li><a href="{% url 'index' %}">Не сделано<span class="count_right"></span></a></li>
-                                <li><a href="{% url 'done' %}">Сделано<span class="count_right"></span></a></li>
-                                <li><a href="{% url 'all_tasks' %}">Все<span class="count_right"></span></a></li>
+                                <li><a href="{% url 'not_done' %}">Не сделано<span class="count_right">({{ not_done_count }})</span></a></li>
+                                <li><a href="{% url 'done' %}">Сделано<span class="count_right">({{ done_count }})</span></a></li>
+                                <li><a href="{% url 'all' %}">Все<span class="count_right">({{ all_count }})</span></a></li>
                             </ul>
                         </ul>
                     </div>

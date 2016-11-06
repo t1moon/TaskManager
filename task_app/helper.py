@@ -20,15 +20,19 @@ def paginate(object_list, request, on_list):
 
 
 def prepare_context(request, tasks):
-    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
-    tasks_notag_count = Task.objects.filter(is_deleted=False, tags=None).filter(user=request.user).count()
+    all_count = Task.objects.filter(is_deleted=False).filter(user=request.user).order_by('-created_at').count()
+    no_tag_count = Task.objects.filter(is_deleted=False, tags=None).filter(user=request.user).count()
+    not_done_count = Task.objects.filter(is_deleted=False).filter(is_done=False).filter(user=request.user).order_by('-created_at').count()
+    done_count = Task.objects.filter(is_done=True).filter(user=request.user).order_by('-created_at').count()
     tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user).distinct()
     page = paginate(tasks, request, 10)
     form = TaskForm()
     context = {
         "tasks": page,
-        "tasks_count": tasks_count,
-        "tasks_notag_count": tasks_notag_count,
+        "all_count": all_count,
+        "no_tag_count": no_tag_count,
+        "not_done_count": not_done_count,
+        "done_count": done_count,
         "tags": tags,
         "form": form
     }

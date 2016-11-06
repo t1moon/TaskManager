@@ -29,7 +29,8 @@ urlpatterns = [
     url(r'^delete_task$', task_app.views.delete_task, name='delete_task'),
     url(r'^tag/(?P<tag_name>[\w\-!@#$%&*;]+)/$', task_app.views.tag, name='tag'),
     url(r'^done$', task_app.views.done, name='done'),
-    url(r'^all_tasks$', task_app.views.all_tasks, name='all_tasks'),
+    url(r'^not_done$', task_app.views.not_done, name='not_done'),
+    url(r'^all$', task_app.views.all, name='all'),
     url(r'^deadline_sort$', task_app.views.deadline_sort, name='deadline_sort'),
 
 

@@ -20,7 +20,7 @@ class TaskManager(models.Manager):
         return self.filter(is_deleted=False).filter(user=author).order_by('-created_at')
 
     def deadline_sort(self, author):
-        return self.filter(is_deleted=False).filter(is_done=False).filter(user=author).order_by('-deadline')
+        return self.filter(is_deleted=False).filter(is_done=False).filter(user=author).order_by('deadline')
 
     def tag(self, tag_name, author):
         if tag_name == 'None':

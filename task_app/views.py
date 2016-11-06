@@ -35,11 +35,26 @@ def done(request):
     return render(request, 'index.html', context)
 
 
-def all_tasks(request):
+def not_done(request):
+    user = request.user
+    if (not user.is_authenticated()):
+        return redirect('login')
+    tasks = Task.objects.not_done(request.user)
+    context = prepare_context(request, tasks)
+    return render(request, 'index.html', context)
+
+
+def all(request):
     user = request.user
     if (not user.is_authenticated()):
         return redirect('login')
     tasks = Task.objects.all_tasks(request.user)
+    context = prepare_context(request, tasks)
+    return render(request, 'index.html', context)
+
+
+def tag(request, tag_name):
+    tasks = Task.objects.tag(tag_name, request.user)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
@@ -53,10 +68,6 @@ def deadline_sort(request):
     return render(request, 'index.html', context)
 
 
-def tag(request, tag_name):
-    tasks = Task.objects.tag(tag_name, request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
 
 
 @csrf_exempt
