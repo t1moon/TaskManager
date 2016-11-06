@@ -21,6 +21,13 @@ class TaskForm(forms.Form):
                                                                                'data-uk-datepicker': "{minDate: '1',format:'YYYY-MM-DD'}",
                                                                                'value': "%s" % deadline_default}))
 
+    def clean_tags(self):
+        tags = self.cleaned_data['tags']
+        tag_list = tags.replace(' ', '').split(',')
+        if 'None' in tag_list:
+            self.add_error('tags', 'Нельзя использовать None')
+        return tags
+
     def save(self, author):
         task = Task(title=self.cleaned_data['title'],
                     deadline=self.cleaned_data['deadline'],
@@ -31,7 +38,7 @@ class TaskForm(forms.Form):
             return task.id
         else:
             for tag in tags.replace(' ', '').split(','):
-                if tag == '':                               # В случае ввода нескольких запятых
+                if tag == '':  # В случае ввода нескольких запятых
                     continue
                 t = Tag.objects.filter(task__is_deleted=False).filter(task__user=author) \
                     .filter(title=tag).first()

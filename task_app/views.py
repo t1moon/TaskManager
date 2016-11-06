@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView
 
 from task_app.forms import TaskForm, UserSignupForm, UserLoginForm
+from task_app.helper import prepare_context
 from task_app.models import Task, Tag, Profile
 import json
 
@@ -18,41 +19,13 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login, logout as auth_logout
 
 
-def paginate(object_list, request, on_list):
-    list = object_list
-    paginator = Paginator(list, on_list)  # Show 25 number_page per page
-    page_number = request.GET.get('page')
-    try:
-        page = paginator.page(page_number)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        page = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        page = paginator.page(paginator.num_pages)
-    return page
-
-
 def index(request):
     user = request.user
     if (not user.is_authenticated()):
         return redirect('login')
     tasks = Task.objects.not_done(request.user)
-    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
-    tasks_notag_count = Task.objects.filter(is_deleted=False, tags=None).filter(user=request.user).count()
-    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user).distinct()
-        # .annotate(num_tasks=Sum(
-        #           Case(
-        #               When(task__is_deleted=False, then=1),
-        #               default=0,
-        #               output_field=IntegerField()
-        #           )
-        #        ))
-    page = paginate(tasks, request, 10)
-    form = TaskForm()
-    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count,
-                                          "tasks_notag_count": tasks_notag_count,
-                                          "tags": tags, "form": form})
+    context = prepare_context(request, tasks)
+    return render(request, 'index.html', context)
 
 
 def done(request):
@@ -60,14 +33,8 @@ def done(request):
     if (not user.is_authenticated()):
         return redirect('login')
     tasks = Task.objects.done(request.user)
-    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
-    tasks_notag_count = Task.objects.filter(is_deleted=False, tags=None).filter(user=request.user).count()
-    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user)
-    page = paginate(tasks, request, 10)
-    form = TaskForm()
-    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count,
-                                          "tasks_notag_count": tasks_notag_count,
-                                          "tags": tags, "form": form})
+    context = prepare_context(request, tasks)
+    return render(request, 'index.html', context)
 
 
 def all_tasks(request):
@@ -75,14 +42,8 @@ def all_tasks(request):
     if (not user.is_authenticated()):
         return redirect('login')
     tasks = Task.objects.all(request.user)
-    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
-    tasks_notag_count = Task.objects.filter(is_deleted=False, tags=None).filter(user=request.user).count()
-    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user).distinct()
-    page = paginate(tasks, request, 10)
-    form = TaskForm()
-    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count,
-                                          "tasks_notag_count": tasks_notag_count,
-                                          "tags": tags, "form": form})
+    context = prepare_context(request, tasks)
+    return render(request, 'index.html', context)
 
 
 def deadline_sort(request):
@@ -90,26 +51,14 @@ def deadline_sort(request):
     if (not user.is_authenticated()):
         return redirect('login')
     tasks = Task.objects.deadline_sort(request.user)
-    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
-    tasks_notag_count = Task.objects.filter(is_deleted=False, tags=None).filter(user=request.user).count()
-    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user)
-    page = paginate(tasks, request, 10)
-    form = TaskForm()
-    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count,
-                                          "tasks_notag_count": tasks_notag_count,
-                                          "tags": tags, "form": form})
+    context = prepare_context(request, tasks)
+    return render(request, 'index.html', context)
 
 
 def tag(request, tag_name):
     tasks = Task.objects.tag(tag_name, request.user)
-    tasks_count = Task.objects.filter(is_deleted=False).filter(user=request.user).count()
-    tasks_notag_count = Task.objects.filter(is_deleted=False, tags=None).filter(user=request.user).count()
-    tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user).distinct()
-    page = paginate(tasks, request, 10)
-    form = TaskForm()
-    return render(request, 'index.html', {"tasks": page, "tasks_count": tasks_count,
-                                          "tasks_notag_count": tasks_notag_count,
-                                          "tags": tags, "form": form})
+    context = prepare_context(request, tasks)
+    return render(request, 'index.html', context)
 
 
 @csrf_exempt
@@ -159,9 +108,16 @@ def add_task(request):
             author=Profile.objects.get(username=request.user.username)
             form.save(author)
             return redirect('index')
+        else:
+            enable_modal = True
+            tasks = Task.objects.not_done(request.user)
+            context = prepare_context(request, tasks)
+            context['enable_modal'] = enable_modal
+            context['form'] = form
+            return render(request, 'index.html', context)
     else:
         form = TaskForm()
-    return redirect('index')
+    return render(request, 'add_task_modal.html', {'form': form})
 
 
 @csrf_exempt
