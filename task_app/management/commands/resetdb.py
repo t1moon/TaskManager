@@ -1,12 +1,15 @@
 from django.db import connection
 from django.core.management import BaseCommand
+import MySQLdb
+
 
 
 class Command(BaseCommand):
     help = 'drop the database'
 
     def handle(self, *args, **options):
-        cursor = connection.cursor()
+        task_db = MySQLdb.connect(host="task_db", user="root", password="admin", port=3306)
+        cursor = task_db.cursor()
         cursor.execute('DROP DATABASE IF EXISTS db_task')
         cursor.execute('''CREATE DATABASE db_task
                             DEFAULT CHARACTER SET utf8

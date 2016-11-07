@@ -81,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db_task',
-        'USER': 'root',
-        'PASSWORD': '04151614'
+        'USER': 'dbuser',
+        'PASSWORD': 'secret'
     }
 }
 
