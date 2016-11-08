@@ -5,15 +5,15 @@
     <!-- MAIN PART -->
     {% if expired %}
         <div class="row">
-         <div class="col-md-offset-4">
-            <h4>Простите, но ключ активации истёк</h4>
+         <div class="col-md-offset-1">
+            <h3>Простите, но ключ активации истёк</h3>
          </div>
         </div>
     {% endif %}
     {% if success %}
         <div class="row">
-         <div class="col-md-offset-4">
-            <h4>Спасибо за регистрацию! <a href="{% url 'login' %}">Залогинтесь</a> и переходите в личный кабинет</h4>
+         <div class="col-md-offset-1">
+            <h3>Спасибо за регистрацию! <a href="{% url 'login' %}">Залогинтесь</a> и переходите в личный кабинет</h3>
          </div>
         </div>
     {% endif %}

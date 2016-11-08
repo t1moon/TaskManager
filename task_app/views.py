@@ -138,7 +138,7 @@ def signup(request):
             profile.save()
             email_subject = 'Account conformation'
             email_body = '''Hello, %s, and thanks for signing up!
-            To activate your account, click this link within 48 hours: http://139.59.172.56/confirm/%s''' % \
+            To activate your account, click this link within 48 hours: http://taskdone.space/confirm/%s''' % \
                          (
                              profile.username,
                              profile.activation_key)
