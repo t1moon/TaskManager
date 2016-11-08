@@ -4,25 +4,43 @@
 {% block content %}
     {% if user.is_authenticated %}
         <div class="container">
-            <div class="blog-header">
-                <h1 class="blog-title">Задачи</h1>
-                {% include "add_task_modal.html" %}
-            </div>
 
             <div class="row">
                 <div class="col-sm-8 blog-main">
+                    <div class="blog-header">
+                        <h1 class="blog-title">Мои задачи</h1>
+                        {% include "add_task_modal.html" %}
+                    </div>
                     {% for task in tasks %}
                         {% include "single_task.html" %}
                     {% endfor %}
                     {% include "pagination.html" with page=tasks %}
                 </div><!-- /.blog-main -->
                 <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+
+                    <div class="sidebar-module sidebar-module-sort">
+
+                        <h2>Сортировки</h2>
+
+                        <ul class="uk-list uk-list-line">
+
+                                <li><a href="{% url 'index' %}"
+                                       class="{% if request.path == '/' %}active-link{% endif %}">По времени
+                                    добавления</a></li>
+                                <li><a href="{% url 'deadline_sort' %}"
+                                       class="{% if request.path == '/deadline_sort' %}active-link{% endif %}">По
+                                    дедлайну</a></li>
+
+                        </ul>
+
+                    </div>
                     <div class="sidebar-module sidebar-module-category">
 
                         <h2>Теги</h2>
+
                         <ul class="uk-list uk-list-line">
                             <li><a href="{% url 'index' %}"
-                            class="{% if request.path == '/' %}active-link{% endif %}">Все теги<span
+                                   class="{% if request.path == '/' %}active-link{% endif %}">Все теги<span
                                     class="count_right">({{ not_done_count }})</span></a></li>
 
                             {% for tag in tags %}
@@ -31,35 +49,27 @@
                             {% endfor %}
 
                             <li><a href="{% url 'tag' None %}"
-                            class="{% if request.path == '/tag/None/' %}active-link{% endif %}">Без тега
-                            <span class="count_right">({{ no_tag_count }})</span></a></li>
+                                   class="{% if request.path == '/tag/None/' %}active-link{% endif %}">Без тега
+                                <span class="count_right">({{ no_tag_count }})</span></a></li>
                         </ul>
-
                     </div>
-                    <div class="sidebar-module-status">
+                    <div class="sidebar-module sidebar-module-category">
                         <h2>Статус</h2>
                         <ul class="uk-list uk-list-line">
-                            <ul class="uk-list uk-list-line">
+
                                 <li><a href="{% url 'not_done' %}"
-                                class="{% if request.path == '/not_done' %}active-link{% endif %}">Не сделано<span class="count_right">({{ not_done_count }})</span></a></li>
+                                       class="{% if request.path == '/not_done' %}active-link{% endif %}">Не
+                                    сделано<span class="count_right">({{ not_done_count }})</span></a></li>
                                 <li><a href="{% url 'done' %}"
-                                class="{% if request.path == '/done' %}active-link{% endif %}">Сделано<span class="count_right">({{ done_count }})</span></a></li>
+                                       class="{% if request.path == '/done' %}active-link{% endif %}">Сделано<span
+                                        class="count_right">({{ done_count }})</span></a></li>
                                 <li><a href="{% url 'all' %}"
-                                class="{% if request.path == '/all' %}active-link{% endif %}">Все<span class="count_right">({{ all_count }})</span></a></li>
-                            </ul>
+                                       class="{% if request.path == '/all' %}active-link{% endif %}">Все<span
+                                        class="count_right">({{ all_count }})</span></a></li>
+
                         </ul>
                     </div>
-                    <div class="sidebar-module-status">
-                        <h2>Сортировки</h2>
-                        <ul class="uk-list uk-list-line">
-                            <ul class="uk-list uk-list-line">
-                                <li><a href="{% url 'index' %}"
-                                class="{% if request.path == '/' %}active-link{% endif %}">По времени добавления</a></li>
-                                <li><a href="{% url 'deadline_sort' %}"
-                                class="{% if request.path == '/deadline_sort' %}active-link{% endif %}">По дедлайну</a></li>
-                            </ul>
-                        </ul>
-                    </div>
+
                 </div><!-- /.blog-sidebar -->
 
             </div><!-- /.row -->

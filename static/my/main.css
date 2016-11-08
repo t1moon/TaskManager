@@ -9,7 +9,6 @@
 }
 
 body {
-    font-family: Georgia, "Times New Roman", Times, serif;
     font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #555;
 }
@@ -95,8 +94,9 @@ h6, .h6 {
 .blog-title {
     display: inline;
     margin-top: 30px;
+    margin-left: 20px;
     margin-bottom: 0;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: normal;
 }
 
@@ -115,17 +115,17 @@ h6, .h6 {
 }
 
 /* Sidebar modules for boxing content */
-.sidebar-module-status {
+.sidebar-module-sort {
     padding: 15px;
     padding-bottom: 5px;
     border-radius: 4px;
-    background-color: rgba(255, 24, 75, 0.02);
+    margin-top: 40%;
+    text-align: left !important;
 }
 
 .sidebar-module-category {
     padding: 15px;
     padding-bottom: 5px;
-    background-color: rgba(74, 181, 255, 0.02);
     border-radius: 4px;
 }
 
@@ -175,7 +175,7 @@ h6, .h6 {
 .blog-post-meta {
     margin-top: 0;
     margin-bottom: 5px;
-    margin-left: 20px;
+    margin-left: 30px;
     color: #999;
     display: inline-block;
 }
@@ -221,8 +221,8 @@ h6, .h6 {
 }
 
 .btn-add-task {
+    display: inline;
     float: right;
-    margin-right: 35%;
 }
 
 .user-avatar {
