@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^add_task$', task_app.views.add_task, name='add_task'),
     url(r'^edit_task$', task_app.views.edit_task, name='edit_task'),
     url(r'^delete_task$', task_app.views.delete_task, name='delete_task'),
-    url(r'^tag/(?P<tag_name>[\w\-!@#$%&*;]+)/$', task_app.views.tag, name='tag'),
+    url(r'^tag/(?P<tag_name>[-\w\\!@#$%^&*()_=+|:;?/><.~]+)/$', task_app.views.tag, name='tag'),
     url(r'^done$', task_app.views.done, name='done'),
     url(r'^not_done$', task_app.views.not_done, name='not_done'),
     url(r'^all$', task_app.views.all, name='all'),

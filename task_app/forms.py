@@ -25,9 +25,15 @@ class TaskForm(forms.Form):
 
     def clean_tags(self):
         tags = self.cleaned_data['tags']
-        tag_list = tags.replace(' ', '').split(',')
+        tag_list = set(tags.replace(' ', '').split(','))
+        not_allowed = "!#$%^&*()[]:;~|<>?/"
         if 'None' in tag_list:
             self.add_error('tags', 'Нельзя использовать None')
+        for tag in tag_list:
+            for letter in tag:
+                if letter in not_allowed:
+                    self.add_error('tags', 'Нельзя использовать символы {}'.format(not_allowed))
+                    break
         return tags
 
     def save(self, author):
