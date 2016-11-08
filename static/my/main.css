@@ -173,7 +173,7 @@ h6, .h6 {
 }
 
 .deadline-over {
-    border-color: red !important;
+    border-color: darkred !important;
 }
 
 .blog-post-meta {
