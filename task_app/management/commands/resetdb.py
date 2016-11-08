@@ -8,8 +8,7 @@ class Command(BaseCommand):
     help = 'drop the database'
 
     def handle(self, *args, **options):
-        task_db = MySQLdb.connect(host="localhost", user="dbuser", password="secret", port=3306)
-        cursor = task_db.cursor()
+        cursor = connection.cursor()
         cursor.execute('DROP DATABASE IF EXISTS db_task')
         cursor.execute('''CREATE DATABASE db_task
                             DEFAULT CHARACTER SET utf8

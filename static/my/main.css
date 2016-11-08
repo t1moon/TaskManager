@@ -172,6 +172,10 @@ h6, .h6 {
     text-decoration: line-through !important;
 }
 
+.deadline-over {
+    border-color: red !important;
+}
+
 .blog-post-meta {
     margin-top: 0;
     margin-bottom: 5px;

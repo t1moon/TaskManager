@@ -11,7 +11,8 @@
         <form class="uk-form uk-form-calendar">
             <div class="uk-form-icon">
                 <i class="uk-icon-calendar"></i>
-                <input type="text" class="uk-form-deadline {% if task.deadline < timezone.now %}{% endif %}" data-uk-datepicker="{minDate: '1',format:'YYYY-MM-DD'}"
+                <input type="text" class="uk-form-deadline {% if task.deadline <= date_now %}deadline-over{% endif %}"
+                       data-uk-datepicker="{minDate: '1',format:'YYYY-MM-DD'}"
                        value="{{ task.deadline|date:'Y-m-d' }}">
             </div>
         </form>
