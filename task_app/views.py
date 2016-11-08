@@ -17,37 +17,29 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from taskmanager.settings import EMAIL_HOST_USER
 
 
+@login_required(login_url='login')
 def index(request):
-    user = request.user
-    if (not user.is_authenticated()):
-        return redirect('login')
     tasks = Task.objects.not_done(request.user)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
 
+@login_required(login_url='login')
 def done(request):
-    user = request.user
-    if (not user.is_authenticated()):
-        return redirect('login')
     tasks = Task.objects.done(request.user)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
 
+@login_required(login_url='login')
 def not_done(request):
-    user = request.user
-    if (not user.is_authenticated()):
-        return redirect('login')
     tasks = Task.objects.not_done(request.user)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
 
+@login_required(login_url='login')
 def all(request):
-    user = request.user
-    if (not user.is_authenticated()):
-        return redirect('login')
     tasks = Task.objects.all_tasks(request.user)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
@@ -59,15 +51,11 @@ def tag(request, tag_name):
     return render(request, 'index.html', context)
 
 
+@login_required(login_url='login')
 def deadline_sort(request):
-    user = request.user
-    if (not user.is_authenticated()):
-        return redirect('login')
     tasks = Task.objects.deadline_sort(request.user)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
-
-
 
 
 @csrf_exempt
