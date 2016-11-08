@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'drop the database'
 
     def handle(self, *args, **options):
-        task_db = MySQLdb.connect(host="task_db", user="root", password="admin", port=3306)
+        task_db = MySQLdb.connect(host="task_db", user="dbuser", password="secret", port=3306)
         cursor = task_db.cursor()
         cursor.execute('DROP DATABASE IF EXISTS db_task')
         cursor.execute('''CREATE DATABASE db_task
