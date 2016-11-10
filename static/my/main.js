@@ -8,25 +8,31 @@ $(document).ready(function () {
     $(".delete-button").on("click", function () {
         var task = $(this).parent()
         var taskid = $(this).parent().attr('data-taskid')
-        console.log(taskid)
-        $.ajax({
-            url: '/delete_task',
-            type: 'POST',
-            contentType: 'application/x-www-form-urlencoded',
-            dataType: 'json',
-            data: {task_id: taskid},
-            success: function () {
-                task.remove()
-                console.log("task deleted" + taskid)
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText + ' ' + status + ' ' + error);
-            }
+        is_confirm = confirm("Вы действительно хотите удалить задачу?")
+        if (is_confirm) {
+            console.log(taskid)
+            $.ajax({
+                url: '/delete_task',
+                type: 'POST',
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+                data: {task_id: taskid},
+                success: function () {
+                    task.remove()
+                    console.log("task deleted" + taskid)
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText + ' ' + status + ' ' + error);
+                }
 
-        })
+            })
+        } else {
+            // nothing
+        }
+
     });
 
-    //Edit text 
+    //Edit text
 
     $(".edit-button").on("click", function () {
         var taskid = $(this).parent().attr('data-taskid')
