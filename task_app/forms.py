@@ -20,8 +20,11 @@ class TaskForm(forms.Form):
                                                          "name": "tags"}))
     deadline_default = datetime.date.today()
     deadline = forms.DateField(label='Deadline', widget=forms.TextInput(attrs={'class': "uk-form-deadline",
-                                                                               'data-uk-datepicker': "{minDate: '1',format:'YYYY-MM-DD'}",
-                                                                               'value': "%s" % deadline_default}))
+                                                                               'data-uk-datepicker': "{minDate: '1',format:'YYYY-MM-DD'}"}))
+
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
+        self.fields['deadline'].initial = datetime.date.today()
 
     def clean_tags(self):
         tags = self.cleaned_data['tags']
