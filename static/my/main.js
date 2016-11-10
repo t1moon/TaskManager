@@ -69,6 +69,7 @@ $(document).ready(function () {
     $(".uk-form-deadline").on("change", function () {
         var taskid = $(this).parent().parent().parent().parent($(".blog-post")).attr('data-taskid')
         var new_deadline = $(this).val()
+        var deadline = $(this)
         console.log(new_deadline)
         $.ajax({
             url: '/edit_task',
@@ -76,8 +77,14 @@ $(document).ready(function () {
             contentType: 'application/x-www-form-urlencoded',
             dataType: 'json',
             data: {task_id: taskid, new_deadline: new_deadline},
-            success: function () {
+            success: function (data) {
                 console.log("task edited" + taskid)
+                if (data.task_is_over) {
+                    deadline.css("box-shadow", "0px 0px 10px #d31919")
+                } else {
+                    deadline.css("box-shadow", "none")
+                }
+
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);

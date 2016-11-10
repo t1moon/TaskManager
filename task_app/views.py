@@ -85,6 +85,7 @@ def edit_task(request):
 
         if request.POST.get('new_deadline') is not None:
             task.deadline = request.POST.get('new_deadline')
+            task_is_over = task.deadline <= str(datetime.date.today())
 
         if request.POST.get('is_done') is not None:
             is_done = request.POST.get('is_done')
@@ -95,7 +96,8 @@ def edit_task(request):
         task.save()
         response = {
             'STATUS': 'OK',
-            'is_done': task.is_done
+            'is_done': task.is_done,
+            'task_is_over': task_is_over
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 

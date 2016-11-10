@@ -20,7 +20,7 @@
 
                     <div class="sidebar-module sidebar-module-sort">
                         <h2>Сортировка</h2>
-                        <ul class="nav nav-pills" role="tablist">
+                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
                             <li class="{% if request.path == '/' %}active{% endif %}">
                                 <a href="{% url 'index' %}">По добавлению</a>
                             </li>
@@ -34,7 +34,7 @@
 
                     <div class="sidebar-module sidebar-module-category">
                         <h2>Теги</h2>
-                        <ul class="nav nav-pills" role="tablist">
+                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
                             <li class="{% if request.path == '/' %}active{% endif %}">
                                 <a href="{% url 'index' %}">Все теги<span
                                         class="badge badge-warning">({{ not_done_count }})</span></a>
@@ -56,7 +56,7 @@
 
                     <div class="sidebar-module sidebar-module-category">
                         <h2>Статус</h2>
-                        <ul class="nav nav-pills" role="tablist">
+                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
                             <li class="{% if request.path == '/not_done' %}active{% endif %}">
                                 <a href="{% url 'not_done' %}">Не сделано
                                     <span class="count_right badge badge-warning">({{ not_done_count }})</span></a>

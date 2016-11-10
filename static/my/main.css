@@ -171,9 +171,11 @@ h6, .h6 {
 
 .blog-post-title {
     margin-bottom: 5px !important;
+    margin-right: 5px !important;
     font-size: 20px !important;
-    /*border: none !important;*/
-    width: 77% !important;
+    border: none !important;
+    width: 76% !important;
+    box-shadow: none;
 }
 
 .title-done {
@@ -181,13 +183,13 @@ h6, .h6 {
 }
 
 .deadline-over {
-    border-color: darkred !important;
+    box-shadow:  0px 0px 10px #d31919;
 }
 
 .blog-post-meta {
     margin-top: 0;
-    margin-bottom: 5px;
-    margin-left: 30px;
+    margin-bottom: 2px;
+    margin-left: 0px;
     color: rgba(209, 130, 17, 0.73);;
     display: inline-block;
 }
@@ -267,4 +269,7 @@ h6, .h6 {
     background-color: rgba(209, 130, 17, 0.73);
 }
 
+.nav-pills-custom > li > a {
+    padding:7px 15px !important;
+}
 
