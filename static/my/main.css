@@ -1,15 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i&subset=cyrillic-ext');
+
 /*
  * Globals
  */
-@font-face {
-    font-family: myFont;
-    src: url('../../static/src/fonts/fontawesome-webfont.woff'),
-    url('../../static/src/fonts/fontawesome-webfont.woff2'),
-    url('../../static/src/fonts/fontawesome-webfont.ttf');
-}
 
 body {
-    font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif !important;*/
+    font-family: 'Roboto', sans-serif !important;
     color: #555;
 }
 
@@ -20,7 +17,8 @@ h4, .h4,
 h5, .h5,
 h6, .h6 {
     margin-top: 0;
-    font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif !important;*/
+    font-family: 'Roboto', sans-serif !important;
     font-weight: normal;
     color: #333;
 }
@@ -116,7 +114,7 @@ h6, .h6 {
 
 /* Sidebar modules for boxing content */
 .sidebar-module-sort {
-    padding: 15px;
+    /*padding: 15px;*/
     padding-bottom: 5px;
     border-radius: 4px;
     margin-top: 40%;
@@ -124,10 +122,20 @@ h6, .h6 {
 }
 
 .sidebar-module-category {
-    padding: 15px;
+    /*padding: 15px;*/
     padding-bottom: 5px;
     border-radius: 4px;
 }
+
+.sidebar-module ul {
+    margin-top: 0;
+}
+
+.sidebar-module h2 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
 
 .blog-sidebar li {
     font-size: 20px;
@@ -180,7 +188,7 @@ h6, .h6 {
     margin-top: 0;
     margin-bottom: 5px;
     margin-left: 30px;
-    color: #999;
+    color: rgba(209, 130, 17, 0.73);;
     display: inline-block;
 }
 
@@ -251,6 +259,12 @@ h6, .h6 {
 .form-control[readonly], .input-group-addon {
     background-color: white;
     border: none;
+}
+
+/*Customize Bootstrap*/
+.badge-warning {
+    font-size: 15px;
+    background-color: rgba(209, 130, 17, 0.73);
 }
 
 
