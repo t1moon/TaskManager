@@ -26,7 +26,7 @@ $(document).ready(function () {
         })
     });
 
-    //Edit text
+    //Edit text 
 
     $(".edit-button").on("click", function () {
         var taskid = $(this).parent().attr('data-taskid')
@@ -36,19 +36,24 @@ $(document).ready(function () {
                 $(this).prop('readonly', true)
                 $(this).blur()
                 var new_title = $(this).val()
-                $.ajax({
-                    url: '/edit_task',
-                    type: 'POST',
-                    contentType: 'application/x-www-form-urlencoded',
-                    dataType: 'json',
-                    data: {task_id: taskid, new_title: new_title},
-                    success: function () {
-                        console.log("task edited" + taskid)
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(xhr.responseText + ' ' + status + ' ' + error);
-                    }
-                })
+                if (new_title == "") {
+                    alert("Название не может быть пустое")
+                    window.location.reload();
+                } else {
+                    $.ajax({
+                        url: '/edit_task',
+                        type: 'POST',
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        data: {task_id: taskid, new_title: new_title},
+                        success: function () {
+                            console.log("task edited" + taskid)
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText + ' ' + status + ' ' + error);
+                        }
+                    })
+                }
             }
         })
     })
