@@ -8,6 +8,9 @@ $(document).ready(function () {
     $(".delete-button").on("click", function () {
         var task = $(this).parent()
         var taskid = $(this).parent().attr('data-taskid')
+        var sidebar = $(".blog-sidebar")
+        var category = sidebar.find(".sidebar-module-category")
+
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
             console.log(taskid)
@@ -19,6 +22,7 @@ $(document).ready(function () {
                 data: {task_id: taskid},
                 success: function () {
                     task.remove()
+
                     console.log("task deleted" + taskid)
                 },
                 error: function (xhr, status, error) {
@@ -100,7 +104,7 @@ $(document).ready(function () {
         var taskid = $(this).parent().parent().parent().attr('data-taskid')
         var is_done = task.attr('data-isdone')
         $.ajax({
-            url: '/edit_task',
+            url: '/complete_task',
             type: 'POST',
             contentType: 'application/x-www-form-urlencoded',
             dataType: 'json',

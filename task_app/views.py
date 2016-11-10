@@ -75,17 +75,10 @@ def delete_task(request):
 
 
 @csrf_exempt
-def edit_task(request):
+def complete_task(request):
     if request.is_ajax() and request.method == 'POST':
         t_id = request.POST.get('task_id')
         task = Task.objects.get(id=t_id)
-
-        if request.POST.get('new_title') is not None:
-            task.title = request.POST.get('new_title')
-
-        if request.POST.get('new_deadline') is not None:
-            task.deadline = request.POST.get('new_deadline')
-            task_is_over = task.deadline <= str(datetime.date.today())
 
         if request.POST.get('is_done') is not None:
             is_done = request.POST.get('is_done')
@@ -97,6 +90,24 @@ def edit_task(request):
         response = {
             'STATUS': 'OK',
             'is_done': task.is_done,
+        }
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+@csrf_exempt
+def edit_task(request):
+    if request.is_ajax() and request.method == 'POST':
+        t_id = request.POST.get('task_id')
+        task = Task.objects.get(id=t_id)
+
+        if request.POST.get('new_title') is not None:
+            task.title = request.POST.get('new_title')
+
+        if request.POST.get('new_deadline') is not None:
+            task.deadline = request.POST.get('new_deadline')
+            task_is_over = task.deadline <= str(datetime.date.today())
+        task.save()
+        response = {
+            'STATUS': 'OK',
             'task_is_over': task_is_over
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
