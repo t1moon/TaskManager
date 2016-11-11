@@ -66,10 +66,12 @@ def delete_task(request):
         task.is_deleted = True
         task.save()
         tags = task.tags.all()
+        tag_list = []
         for tag in tags:
             tag.task_set.remove(task)
+            tag_list.append(tag.title)
         response = {
-            'STATUS': 'OK',
+            'tag_list': tag_list
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 

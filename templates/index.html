@@ -37,19 +37,19 @@
                         <h2>Теги</h2>
                         <ul class="nav nav-pills nav-pills-custom" role="tablist">
                             <li class="{% if request.path == '/' %}active{% endif %}">
-                                <a href="{% url 'index' %}">Все теги<span
+                                <a href="{% url 'index' %}" id="all_tags">Все теги<span
                                         class="badge badge-warning">({{ not_done_count }})</span></a>
                             </li>
 
                             {% for tag in tags %}
                                 <li class="{% if request.path == '/tag/' %}active{% endif %}">
-                                    <a href="{% url 'tag' tag.title %}">{{ tag.title }}
+                                    <a href="{% url 'tag' tag.title %}" class="other_tags">{{ tag.title }}
                                         <span class="badge badge-warning">({{ tag.task_set.count }})</span></a>
                                 </li>
                             {% endfor %}
 
                             <li class="{% if request.path == '/tag/None/' %}active{% endif %}">
-                                <a href="{% url 'tag' None %}">Без тега
+                                <a href="{% url 'tag' None %}" id="none_tags">Без тега
                                     <span class="count_right badge badge-warning">({{ no_tag_count }})</span></a>
                             </li>
                         </ul>

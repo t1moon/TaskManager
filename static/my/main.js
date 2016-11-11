@@ -10,7 +10,8 @@ $(document).ready(function () {
         var taskid = $(this).parent().attr('data-taskid')
         var sidebar = $(".blog-sidebar")
         var category = sidebar.find(".sidebar-module-category")
-
+        var all_tags = category.find("#all_tags")
+        var none_tags = category.find("#none_tags")
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
             console.log(taskid)
@@ -20,9 +21,11 @@ $(document).ready(function () {
                 contentType: 'application/x-www-form-urlencoded',
                 dataType: 'json',
                 data: {task_id: taskid},
-                success: function () {
+                success: function (data) {
                     task.remove()
-
+                    $.each(data, function(index, value){
+                        console.log(category.find(".other_tags").val())
+                    })  
                     console.log("task deleted" + taskid)
                 },
                 error: function (xhr, status, error) {
