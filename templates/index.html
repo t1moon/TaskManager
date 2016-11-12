@@ -11,6 +11,7 @@
                         <h1 class="blog-title">Мои задачи</h1>
                         {% include "add_task_modal.html" %}
                     </div>
+                <hr style="margin-bottom: 40px">
                     {% for task in tasks %}
                         {% include "single_task.html" %}
                     {% endfor %}
