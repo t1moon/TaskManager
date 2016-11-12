@@ -8,6 +8,7 @@ body {
     /*font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif !important;*/
     font-family: 'Roboto', sans-serif !important;
     color: #555;
+    position: relative;
 }
 
 h1, .h1,
@@ -138,8 +139,8 @@ h6, .h6 {
 
 
 .blog-sidebar li {
-    font-size: 20px;
-    font-style: italic;
+    font-size: 18px;
+    /*font-style: italic;*/
 }
 
 .sidebar-module-inset p:last-child,
@@ -183,14 +184,15 @@ h6, .h6 {
 }
 
 .deadline-over {
-    box-shadow:  0px 0px 10px #d31919;
+    box-shadow:  0px 0px 6px #d31919;
 }
 
 .blog-post-meta {
     margin-top: 0;
     margin-bottom: 2px;
     margin-left: 0px;
-    color: rgba(209, 130, 17, 0.73);;
+    /*color: rgba(209, 130, 17, 0.73);*/
+    color: #428bca;
     display: inline-block;
 }
 
@@ -199,16 +201,14 @@ h6, .h6 {
  */
 
 .blog-footer {
+    background-color: white;
     padding: 40px 0;
-    color: #999;
-    text-align: center;
-    background-color: #f9f9f9;
-    border-top: 1px solid #e5e5e5;
+    /*color: #999;*/
+    /*text-align: center;*/
+    /*background-color: #f9f9f9;*/
+    /*border-top: 1px solid #e5e5e5;*/
 }
 
-.blog-footer p:last-child {
-    margin-bottom: 0;
-}
 
 .uk-form-calendar {
     display: inline-block;
@@ -216,15 +216,6 @@ h6, .h6 {
 
 }
 
-/*.uk-form-deadline {*/
-/*width: 100%;*/
-/*}*/
-/*.uk-form-icon {*/
-/*width: 100%;*/
-/*}*/
-/*.uk-form input {*/
-/*margin: 5px;*/
-/*}*/
 .uk-form-new-task-name, .uk-form-new-task-desc, .uk-form-new-task-tag {
     width: 90%;
     margin: 20px;
@@ -266,10 +257,14 @@ h6, .h6 {
 /*Customize Bootstrap*/
 .badge-warning {
     font-size: 15px;
-    background-color: rgba(209, 130, 17, 0.73);
+    /*background-color: rgba(209, 130, 17, 0.73);*/
+    background-color: rgba(71, 158, 226, 0.85);
 }
 
 .nav-pills-custom > li > a {
     padding:7px 15px !important;
+}
+.nav-pills>li.active>a {
+    background-color: #428bca;
 }
 

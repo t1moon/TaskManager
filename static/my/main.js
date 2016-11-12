@@ -84,7 +84,7 @@ $(document).ready(function () {
             success: function (data) {
                 console.log("task edited" + taskid)
                 if (data.task_is_over) {
-                    deadline.css("box-shadow", "0px 0px 10px #d31919")
+                    deadline.css("box-shadow", "0px 0px 6px #d31919")
                 } else {
                     deadline.css("box-shadow", "none")
                 }
