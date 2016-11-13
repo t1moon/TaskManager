@@ -152,13 +152,42 @@ $(document).ready(function () {
     })
 
     // Choice tag ajax
-
     $(".tags").on("click", function() {
         var tag_title = $(this).find("span").not(".badge").text();
         var list_item = $(this).parent()
         var category = $(".blog-sidebar").find($(".sidebar-module-category"))
         var last_active_pill = category.find($(".active"))
-        console.log(tag_title)
+        $.ajax({
+            url: '/',
+            type: 'GET',
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            data: {tag_title: tag_title},
+            success: function (data) {
+                $(".replace-tasks").html(data.html_response)
+                last_active_pill.removeClass("active")
+                list_item.addClass("active");
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText + ' ' + status + ' ' + error);
+            }
+        })
+    })
+
+    // For tag that are under tasks
+
+    $(document).on("click", '.blog-post-meta', function() {
+        var tag_title = $(this).text().replace("#", "");
+        var category = $(".blog-sidebar").find($(".sidebar-module-category"))
+        // let's find tag on sidebar, that matches
+        tags = category.find($(".tags")).find("span").not(".badge");
+        var list_item;
+        $.each(tags, function(index, value) {
+            if ($(value).text() == tag_title) {
+                list_item = $(value).parent().parent();
+            }
+        })
+        var last_active_pill = category.find($(".active"))
         $.ajax({
             url: '/',
             type: 'GET',

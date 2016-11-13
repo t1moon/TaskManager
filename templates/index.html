@@ -41,14 +41,14 @@
                         </li>
 
                         {% for tag in tags %}
-                            <li class="">
+                            <li>
                                 <a class="tags">
                                     <span class="tag-title">{{ tag.title }}</span>
                                     <span class="count_right badge badge-warning">{{ tag.task_set.count }}</span></a>
                             </li>
                         {% endfor %}
 
-                        <li class="">
+                        <li>
                             <a class="tags">
                                 <span>Без тега</span>
                                 <span class="count_right badge badge-warning">{{ no_tag_count }}</span></a>

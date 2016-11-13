@@ -20,7 +20,7 @@
 
     <p class="blog-post-meta" style="padding-left: 50px">
         {% for t in task.tags.all %}
-            <a class="blog-post-meta" href="{% url 'tag' t.title %}">#{{ t.title }}</a>
+            <a class="blog-post-meta">#{{ t.title }}</a>
         {% endfor %}
     </p>
 
