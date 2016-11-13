@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^done$', task_app.views.done, name='done'),
     url(r'^not_done$', task_app.views.not_done, name='not_done'),
     url(r'^all$', task_app.views.all, name='all'),
-    url(r'^deadline_sort$', task_app.views.deadline_sort, name='deadline_sort'),
+    # url(r'^deadline_sort$', task_app.views.deadline_sort, name='deadline_sort'),
 
 
 ]

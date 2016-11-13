@@ -64,20 +64,6 @@ def all(request):
     return render(request, 'index.html', context)
 
 
-def tag(request, tag_name):
-    sorting_by = '-created_at'
-    tasks = Task.objects.tag(tag_name, request.user, sorting_by)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
-
-
-@login_required(login_url='login')
-def deadline_sort(request):
-    tasks = Task.objects.deadline_sort(request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
-
-
 @csrf_exempt
 def delete_task(request):
     if request.method == 'POST':

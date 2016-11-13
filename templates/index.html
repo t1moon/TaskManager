@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    <div class="container">
+    <div class="container" xmlns="http://www.w3.org/1999/html">
 
         <div class="row">
             <div class="col-sm-8 blog-main">
@@ -59,15 +59,18 @@
                     <h2>Статус</h2>
                     <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
                         <li class="{% if request.path == '/not_done' %}active{% endif %}">
-                            <a href="{% url 'not_done' %}">Не сделано
+                            <a href="{% url 'not_done' %}">
+                                <span>Не сделано</span>
                                 <span class="count_right badge badge-warning">{{ not_done_count }}</span></a>
                         </li>
                         <li class="{% if request.path == '/done' %}active{% endif %}">
-                            <a href="{% url 'done' %}">Сделано
+                            <a href="{% url 'done' %}">
+                                <span>Сделано</span>
                                 <span class="count_right badge badge-warning">{{ done_count }}</span></a>
                         </li>
                         <li class="{% if request.path == '/all' %}active{% endif %}">
-                            <a href="{% url 'all' %}">Все
+                            <a href="{% url 'all' %}">
+                                <span>Все</span>
                                 <span class="count_right badge badge-warning">{{ all_count }}</span></a>
                         </li>
                     </ul>
