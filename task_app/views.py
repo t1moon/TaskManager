@@ -34,34 +34,39 @@ def index(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     else:
-        tasks = Task.objects.not_done(request.user)
+        sorting_by = '-created_at'
+        tasks = Task.objects.not_done(request.user, sorting_by)
         context = prepare_context(request, tasks)
         return render(request, 'index.html', context)
 
 
 @login_required(login_url='login')
 def done(request):
-    tasks = Task.objects.done(request.user)
+    sorting_by = '-created_at'
+    tasks = Task.objects.done(request.user, sorting_by)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
 
 @login_required(login_url='login')
 def not_done(request):
-    tasks = Task.objects.not_done(request.user)
+    sorting_by = '-created_at'
+    tasks = Task.objects.not_done(request.user, sorting_by)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
 
 @login_required(login_url='login')
 def all(request):
-    tasks = Task.objects.all_tasks(request.user)
+    sorting_by = '-created_at'
+    tasks = Task.objects.all_tasks(request.user, sorting_by)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
 
 def tag(request, tag_name):
-    tasks = Task.objects.tag(tag_name, request.user)
+    sorting_by = '-created_at'
+    tasks = Task.objects.tag(tag_name, request.user, sorting_by)
     context = prepare_context(request, tasks)
     return render(request, 'index.html', context)
 
@@ -139,7 +144,8 @@ def add_task(request):
             return redirect('index')
         else:
             enable_modal = True
-            tasks = Task.objects.not_done(request.user)
+            sorting_by = '-created_at'
+            tasks = Task.objects.not_done(request.user, sorting_by)
             context = prepare_context(request, tasks)
             context['enable_modal'] = enable_modal
             context['form'] = form

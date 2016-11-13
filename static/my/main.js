@@ -156,7 +156,9 @@ $(document).ready(function () {
         var tag_title = $(this).find("span").not(".badge").text();
         var list_item = $(this).parent()
         var category = $(".blog-sidebar").find($(".sidebar-module-category"))
+        var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
         var last_active_pill = category.find($(".active"))
+        var active_sort_title = sort.find($(".active")).find("a").text()
         $.ajax({
             url: '/',
             type: 'GET',
@@ -164,7 +166,8 @@ $(document).ready(function () {
             dataType: 'json',
             data: {
                 type: "tag",
-                tag_title: tag_title
+                tag_title: tag_title,
+                active_sort_title: active_sort_title
             },
             success: function (data) {
                 $(".replace-tasks").html(data.html_response)
@@ -182,6 +185,8 @@ $(document).ready(function () {
     $(document).on("click", '.blog-post-meta', function() {
         var tag_title = $(this).text().replace("#", "");
         var category = $(".blog-sidebar").find($(".sidebar-module-category"))
+        var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
+        var active_sort_title = sort.find($(".active")).find("a").text()
         // let's find tag on sidebar, that matches
         tags = category.find($(".tags")).find("span").not(".badge");
         var list_item;
@@ -198,7 +203,8 @@ $(document).ready(function () {
             dataType: 'json',
             data: {
                 type: "tag",
-                tag_title: tag_title
+                tag_title: tag_title,
+                active_sort_title: active_sort_title
             },
             success: function (data) {
                 $(".replace-tasks").html(data.html_response)
@@ -214,8 +220,10 @@ $(document).ready(function () {
     $(".sort").on("click", function() {
         var sort_title = $(this).text()
         var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
+        var category = $(".blog-sidebar").find($(".sidebar-module-category"))
         var last_active_pill = sort.find($(".active"))
         var list_item = $(this).parent()
+        var active_tag_title = category.find($(".active")).find("span").not(".badge").text()
         $.ajax({
             url: '/',
             type: 'GET',
@@ -224,6 +232,7 @@ $(document).ready(function () {
             data: {
                 type: "sort",
                 sort_title: sort_title,
+                active_tag_title: active_tag_title
             },
             success: function (data) {
                 $(".replace-tasks").html(data.html_response)
