@@ -20,12 +20,11 @@
                 <div class="sidebar-module sidebar-module-sort">
                     <h2>Сортировка</h2>
                     <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
-                        <li class="{% if request.path == '/' %}active{% endif %}">
-                            <a href="{% url 'index' %}">По добавлению</a>
+                        <li class="active">
+                            <a class="sort">По добавлению</a>
                         </li>
-                        <li class="{% if request.path == '/deadline_sort' %}active{% endif %}">
-                            <a href="{% url 'deadline_sort' %}">По
-                                дедлайну</a>
+                        <li>
+                            <a class="sort">По дедлайну</a>
                         </li>
                     </ul>
                 </div>

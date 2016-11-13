@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
@@ -23,7 +24,8 @@ def paginate(object_list, request, on_list):
 def prepare_context(request, tasks):
     all_count = Task.objects.filter(is_deleted=False).filter(user=request.user).order_by('-created_at').count()
     no_tag_count = Task.objects.filter(is_deleted=False, tags=None).filter(user=request.user).count()
-    not_done_count = Task.objects.filter(is_deleted=False).filter(is_done=False).filter(user=request.user).order_by('-created_at').count()
+    not_done_count = Task.objects.filter(is_deleted=False).filter(is_done=False).filter(user=request.user).order_by(
+        '-created_at').count()
     done_count = Task.objects.filter(is_done=True).filter(user=request.user).order_by('-created_at').count()
     tags = Tag.objects.filter(task__is_deleted=False).filter(task__user=request.user).distinct()
     date_now = datetime.date.today()
@@ -52,3 +54,23 @@ def prepare_context_ajax(request, tasks):
         "form": form
     }
     return context
+
+
+def get_tag_tasks(request):
+    tag_name = request.GET.get("tag_title")
+    if tag_name == u"Все теги":
+        tasks = Task.objects.not_done(request.user)
+    elif tag_name == u"Без тега":
+        tasks = Task.objects.no_tag(request.user)
+    else:
+        tasks = Task.objects.tag(tag_name, request.user)
+    return tasks
+
+
+def get_sort_tasks(request):
+    sort_name = request.GET.get("sort_title")
+    if sort_name == u"По добавлению":
+        tasks = Task.objects.not_done(request.user)
+    elif sort_name == u"По дедлайну":
+        tasks = Task.objects.deadline_sort(request.user)
+    return tasks

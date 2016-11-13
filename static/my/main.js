@@ -162,7 +162,10 @@ $(document).ready(function () {
             type: 'GET',
             contentType: 'application/x-www-form-urlencoded',
             dataType: 'json',
-            data: {tag_title: tag_title},
+            data: {
+                type: "tag",
+                tag_title: tag_title
+            },
             success: function (data) {
                 $(".replace-tasks").html(data.html_response)
                 last_active_pill.removeClass("active")
@@ -193,7 +196,35 @@ $(document).ready(function () {
             type: 'GET',
             contentType: 'application/x-www-form-urlencoded',
             dataType: 'json',
-            data: {tag_title: tag_title},
+            data: {
+                type: "tag",
+                tag_title: tag_title
+            },
+            success: function (data) {
+                $(".replace-tasks").html(data.html_response)
+                last_active_pill.removeClass("active")
+                list_item.addClass("active");
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText + ' ' + status + ' ' + error);
+            }
+        })
+    })
+
+    $(".sort").on("click", function() {
+        var sort_title = $(this).text()
+        var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
+        var last_active_pill = sort.find($(".active"))
+        var list_item = $(this).parent()
+        $.ajax({
+            url: '/',
+            type: 'GET',
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            data: {
+                type: "sort",
+                sort_title: sort_title,
+            },
             success: function (data) {
                 $(".replace-tasks").html(data.html_response)
                 last_active_pill.removeClass("active")
