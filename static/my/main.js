@@ -9,7 +9,8 @@ $(document).ready(function () {
         var task = $(this).parent()
         var taskid = $(this).parent().attr('data-taskid')
         var sidebar = $(".blog-sidebar")
-        var category = sidebar.find(".sidebar-module-category")
+        var category = sidebar.find($(".sidebar-module-category"))
+        var other_tags = category.find($(".other_tags")).find("span").not(".badge");
         var all_tags = category.find("#all_tags")
         var none_tags = category.find("#none_tags")
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
@@ -22,11 +23,13 @@ $(document).ready(function () {
                 data: {task_id: taskid},
                 success: function (data) {
                     task.remove()
-                    var other_tags = category.find(".other_tags").first().val();
-                    console.log(other_tags)
-                    $.each(other_tags, function(index, value){
-                        console.log(index, '+', value)
-                    })  
+                    console.log(data.tag_list)
+                    $.each(other_tags, function (index, value) {
+                        if ($.inArray($(value).text(), data.tag_list) !== -1) {
+                            console.log($(value).text())
+                            $(value).parent().remove();
+                        }
+                    })
                     console.log("task deleted" + taskid)
                 },
                 error: function (xhr, status, error) {
@@ -44,11 +47,11 @@ $(document).ready(function () {
 
     $(".edit-button").on("click", function () {
 
+        var sidebar = $(".blog-sidebar")
+        var category = sidebar.find($(".sidebar-module-category"))
+        var other_tags = category.find($(".other_tags")).find("span").not(".badge");
 
-        
-        var category = sidebar.find(".sidebar-module-category")
-        var other_tags = category.find(".other_tags").first().val();
-
+        //console.log(other_tags)
 
 
         var taskid = $(this).parent().attr('data-taskid')
