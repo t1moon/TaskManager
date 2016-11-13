@@ -4,6 +4,7 @@ import sha
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -19,9 +20,19 @@ from taskmanager.settings import EMAIL_HOST_USER
 
 @login_required(login_url='login')
 def index(request):
-    tasks = Task.objects.not_done(request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
+    if request.is_ajax() and request.method == 'GET':
+        tag_name = request.GET.get("tag_title")
+        tasks = Task.objects.tag(tag_name, request.user)
+        html = render_to_string('task_block.html', {"tasks": tasks})
+        response = {
+            'html_response': html
+        }
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    else:
+        tasks = Task.objects.not_done(request.user)
+        context = prepare_context(request, tasks)
+        return render(request, 'index.html', context)
 
 
 @login_required(login_url='login')

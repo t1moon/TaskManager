@@ -23,12 +23,12 @@ $(document).ready(function () {
                 data: {task_id: taskid},
                 success: function (data) {
                     task.remove()
+
                     //delete counts
                     all_tags_count.text(parseInt(all_tags_count.text()) - 1)
                     if (data.tag_list.length == 0) {
                         none_tags_count.text(parseInt(none_tags_count.text() - 1))
                     }
-
 
                     // delete from tags
                     $.each(other_tags_title, function (index, value) {
@@ -149,6 +149,33 @@ $(document).ready(function () {
                     task_title.css('text-decoration', 'none');
                     task.fadeOut("slow")
                 }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText + ' ' + status + ' ' + error);
+            }
+        })
+    })
+
+    // Choice tag ajax
+
+    $(".other_tags").on("click", function() {
+        //var sidebar = $(".blog-sidebar")
+        //var category = sidebar.find($(".sidebar-module-category"))
+        //var tags_title = category.find($(".other_tags")).find("span").not(".badge");
+        //var tags_title_list = []
+        // $.each(tags_title, function (index, value) {
+        //     tags_title_list.appent($(value).text())
+        // })
+        var tag_title = $(this).find("span").not(".badge").text();
+        console.log(tag_title)
+        $.ajax({
+            url: '/',
+            type: 'GET',
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            data: {tag_title: tag_title},
+            success: function (data) {
+                $(".replace-tasks").html(data.html_response)
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);
