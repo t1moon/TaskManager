@@ -10,7 +10,7 @@ $(document).ready(function () {
         var taskid = $(this).parent().attr('data-taskid')
         var sidebar = $(".blog-sidebar")
         var category = sidebar.find($(".sidebar-module-category"))
-        var other_tags_title = category.find($(".other_tags")).find("span").not(".badge");
+        var tags_title = category.find($(".tags")).find("span").not(".badge");
         var all_tags_count = category.find("#all_tags").find("span")
         var none_tags_count = category.find("#none_tags").find("span")
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
@@ -31,7 +31,7 @@ $(document).ready(function () {
                     }
 
                     // delete from tags
-                    $.each(other_tags_title, function (index, value) {
+                    $.each(tags_title, function (index, value) {
                         // if it's a searched tag and count == 1 then remove
                         if ($.inArray($(value).text(), data.tag_list) !== -1) {
                             tag_count = $(value).next().text();
@@ -60,14 +60,9 @@ $(document).ready(function () {
     //Edit text
 
     $(document).on("click", ".edit-button", function () {
-
         var sidebar = $(".blog-sidebar")
         var category = sidebar.find($(".sidebar-module-category"))
-        var other_tags = category.find($(".other_tags")).find("span").not(".badge");
-
-        //console.log(other_tags)
-
-
+        var tags = category.find($(".tags")).find("span").not(".badge");
         var taskid = $(this).parent().attr('data-taskid')
         $(this).parent().children(".input-group").find(".blog-post-title").prop('readonly', false).focus()
         $(this).parent().children(".input-group").find(".blog-post-title").keypress(function (e) {
@@ -158,7 +153,7 @@ $(document).ready(function () {
 
     // Choice tag ajax
 
-    $(".other_tags").on("click", function() {
+    $(".tags").on("click", function() {
         var tag_title = $(this).find("span").not(".badge").text();
         var list_item = $(this).parent()
         var category = $(".blog-sidebar").find($(".sidebar-module-category"))
