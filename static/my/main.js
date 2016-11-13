@@ -14,7 +14,6 @@ $(document).ready(function () {
         var none_tags = category.find("#none_tags")
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
-            console.log(taskid)
             $.ajax({
                 url: '/delete_task',
                 type: 'POST',
@@ -23,8 +22,10 @@ $(document).ready(function () {
                 data: {task_id: taskid},
                 success: function (data) {
                     task.remove()
-                    $.each(data, function(index, value){
-                        console.log(category.find(".other_tags").val())
+                    var other_tags = category.find(".other_tags").first().val();
+                    console.log(other_tags)
+                    $.each(other_tags, function(index, value){
+                        console.log(index, '+', value)
                     })  
                     console.log("task deleted" + taskid)
                 },
@@ -42,6 +43,14 @@ $(document).ready(function () {
     //Edit text
 
     $(".edit-button").on("click", function () {
+
+
+        
+        var category = sidebar.find(".sidebar-module-category")
+        var other_tags = category.find(".other_tags").first().val();
+
+
+
         var taskid = $(this).parent().attr('data-taskid')
         $(this).parent().children(".input-group").find(".blog-post-title").prop('readonly', false).focus()
         $(this).parent().children(".input-group").find(".blog-post-title").keypress(function (e) {
