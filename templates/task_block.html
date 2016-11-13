@@ -1,0 +1,4 @@
+{% for task in tasks %}
+    {% include "single_task.html" %}
+{% endfor %}
+{% include "pagination.html" with page=tasks %}
