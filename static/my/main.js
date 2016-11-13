@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     // Delete
 
-    $(".delete-button").on("click", function () {
+    $(document).on("click", ".delete-button", function () {
         var task = $(this).parent()
         var taskid = $(this).parent().attr('data-taskid')
         var sidebar = $(".blog-sidebar")
@@ -59,7 +59,7 @@ $(document).ready(function () {
 
     //Edit text
 
-    $(".edit-button").on("click", function () {
+    $(document).on("click", ".edit-button", function () {
 
         var sidebar = $(".blog-sidebar")
         var category = sidebar.find($(".sidebar-module-category"))
@@ -99,7 +99,7 @@ $(document).ready(function () {
 
     // On change deadline
 
-    $(".uk-form-deadline").on("change", function () {
+    $(document).on("change", ".uk-form-deadline", function () {
         var taskid = $(this).parent().parent().parent().parent($(".blog-post")).attr('data-taskid')
         var new_deadline = $(this).val()
         var deadline = $(this)
@@ -127,7 +127,7 @@ $(document).ready(function () {
 
     // Done
 
-    $(".done-button").on("click", function () {
+    $(document).on("click", ".done-button", function () {
         var task = $(this).parent().parent().parent()
         var task_title = $(this).parent().parent().find($(".blog-post-title"))
         var taskid = $(this).parent().parent().parent().attr('data-taskid')
@@ -180,6 +180,8 @@ $(document).ready(function () {
             }
         })
     })
+
+
 
 });
 

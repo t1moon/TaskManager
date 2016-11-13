@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from task_app.forms import TaskForm, UserSignupForm, UserLoginForm
-from task_app.helper import prepare_context
+from task_app.helper import prepare_context, prepare_context_ajax
 from task_app.models import Task, Tag, Profile
 import json
 from django.contrib.auth import authenticate
@@ -22,8 +22,14 @@ from taskmanager.settings import EMAIL_HOST_USER
 def index(request):
     if request.is_ajax() and request.method == 'GET':
         tag_name = request.GET.get("tag_title")
-        tasks = Task.objects.tag(tag_name, request.user)
-        html = render_to_string('task_block.html', {"tasks": tasks})
+        if (tag_name == u"Все теги"):
+            tasks = Task.objects.not_done(request.user)
+        elif (tag_name == u"Без тега"):
+            tasks = Task.objects.no_tag(request.user)
+        else:
+            tasks = Task.objects.tag(tag_name, request.user)
+        context = prepare_context_ajax(request, tasks)
+        html = render_to_string('task_block.html', context)
         response = {
             'html_response': html
         }

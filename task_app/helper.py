@@ -41,3 +41,14 @@ def prepare_context(request, tasks):
     }
     return context
 
+
+def prepare_context_ajax(request, tasks):
+    date_now = datetime.date.today()
+    page = paginate(tasks, request, 10)
+    form = TaskForm()
+    context = {
+        "tasks": page,
+        "date_now": date_now,
+        "form": form
+    }
+    return context
