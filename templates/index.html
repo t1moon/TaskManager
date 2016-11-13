@@ -40,8 +40,8 @@
                         </li>
 
                         {% for tag in tags %}
-                            <li class="{% if request.path == '/tag/' %}active{% endif %}">
-                                <a href="" class="other_tags">
+                            <li class="">
+                                <a class="other_tags">
                                     <span class="tag-title">{{ tag.title }}</span>
                                     <span class="count_right badge badge-warning">{{ tag.task_set.count }}</span></a>
                             </li>

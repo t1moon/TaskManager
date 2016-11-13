@@ -159,14 +159,10 @@ $(document).ready(function () {
     // Choice tag ajax
 
     $(".other_tags").on("click", function() {
-        //var sidebar = $(".blog-sidebar")
-        //var category = sidebar.find($(".sidebar-module-category"))
-        //var tags_title = category.find($(".other_tags")).find("span").not(".badge");
-        //var tags_title_list = []
-        // $.each(tags_title, function (index, value) {
-        //     tags_title_list.appent($(value).text())
-        // })
         var tag_title = $(this).find("span").not(".badge").text();
+        var list_item = $(this).parent()
+        var category = $(".blog-sidebar").find($(".sidebar-module-category"))
+        var last_active_pill = category.find($(".active"))
         console.log(tag_title)
         $.ajax({
             url: '/',
@@ -176,6 +172,8 @@ $(document).ready(function () {
             data: {tag_title: tag_title},
             success: function (data) {
                 $(".replace-tasks").html(data.html_response)
+                last_active_pill.removeClass("active")
+                list_item.addClass("active");
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);
