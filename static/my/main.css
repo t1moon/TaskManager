@@ -264,6 +264,7 @@ h6, .h6 {
 
 .nav-pills-custom > li > a {
     padding:7px 15px !important;
+
 }
 .nav-pills>li.active>a {
     background-color: #428bca;

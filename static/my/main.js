@@ -10,9 +10,9 @@ $(document).ready(function () {
         var taskid = $(this).parent().attr('data-taskid')
         var sidebar = $(".blog-sidebar")
         var category = sidebar.find($(".sidebar-module-category"))
-        var other_tags = category.find($(".other_tags")).find("span").not(".badge");
-        var all_tags = category.find("#all_tags")
-        var none_tags = category.find("#none_tags")
+        var other_tags_title = category.find($(".other_tags")).find("span").not(".badge");
+        var all_tags_count = category.find("#all_tags").find("span")
+        var none_tags_count = category.find("#none_tags").find("span")
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
             $.ajax({
@@ -23,13 +23,27 @@ $(document).ready(function () {
                 data: {task_id: taskid},
                 success: function (data) {
                     task.remove()
-                    console.log(data.tag_list)
-                    $.each(other_tags, function (index, value) {
+                    //delete counts
+                    all_tags_count.text(parseInt(all_tags_count.text()) - 1)
+                    if (data.tag_list.length == 0) {
+                        none_tags_count.text(parseInt(none_tags_count.text() - 1))
+                    }
+
+
+                    // delete from tags
+                    $.each(other_tags_title, function (index, value) {
+                        // if it's a searched tag and count == 1 then remove
                         if ($.inArray($(value).text(), data.tag_list) !== -1) {
-                            console.log($(value).text())
-                            $(value).parent().remove();
+                            tag_count = $(value).next().text();
+                            if (parseInt(tag_count) == 1) {
+                                $(value).parent().remove();
+                            } else {
+                                tag_count = tag_count - 1;
+                                $(value).next().text(parseInt(tag_count));
+                            }
                         }
                     })
+
                     console.log("task deleted" + taskid)
                 },
                 error: function (xhr, status, error) {

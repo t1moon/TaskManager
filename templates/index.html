@@ -21,7 +21,7 @@
 
                     <div class="sidebar-module sidebar-module-sort">
                         <h2>Сортировка</h2>
-                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
+                        <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
                             <li class="{% if request.path == '/' %}active{% endif %}">
                                 <a href="{% url 'index' %}">По добавлению</a>
                             </li>
@@ -35,41 +35,41 @@
 
                     <div class="sidebar-module sidebar-module-category">
                         <h2>Теги</h2>
-                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
+                        <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
                             <li class="{% if request.path == '/' %}active{% endif %}">
                                 <a href="{% url 'index' %}" id="all_tags">Все теги<span
-                                        class="badge badge-warning">({{ not_done_count }})</span></a>
+                                        class="count_right badge badge-warning">{{ not_done_count }}</span></a>
                             </li>
 
                             {% for tag in tags %}
                                 <li class="{% if request.path == '/tag/' %}active{% endif %}">
                                     <a href="{% url 'tag' tag.title %}" class="other_tags">
-                                        <span>{{ tag.title }}</span>
-                                        <span class="badge badge-warning">({{ tag.task_set.count }})</span></a>
+                                        <span class="tag-title">{{ tag.title }}</span>
+                                        <span class="count_right badge badge-warning">{{ tag.task_set.count }}</span></a>
                                 </li>
                             {% endfor %}
 
                             <li class="{% if request.path == '/tag/None/' %}active{% endif %}">
                                 <a href="{% url 'tag' None %}" id="none_tags">Без тега
-                                    <span class="count_right badge badge-warning">({{ no_tag_count }})</span></a>
+                                    <span class="count_right badge badge-warning">{{ no_tag_count }}</span></a>
                             </li>
                         </ul>
                     </div>
 
                     <div class="sidebar-module sidebar-module-category">
                         <h2>Статус</h2>
-                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
+                        <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
                             <li class="{% if request.path == '/not_done' %}active{% endif %}">
                                 <a href="{% url 'not_done' %}">Не сделано
-                                    <span class="count_right badge badge-warning">({{ not_done_count }})</span></a>
+                                    <span class="count_right badge badge-warning">{{ not_done_count }}</span></a>
                             </li>
                             <li class="{% if request.path == '/done' %}active{% endif %}">
                                 <a href="{% url 'done' %}">Сделано
-                                    <span class="count_right badge badge-warning">({{ done_count }})</span></a>
+                                    <span class="count_right badge badge-warning">{{ done_count }}</span></a>
                             </li>
                             <li class="{% if request.path == '/all' %}active{% endif %}">
                                 <a href="{% url 'all' %}">Все
-                                    <span class="count_right badge badge-warning">({{ all_count }})</span></a>
+                                    <span class="count_right badge badge-warning">{{ all_count }}</span></a>
                             </li>
                         </ul>
                     </div>
