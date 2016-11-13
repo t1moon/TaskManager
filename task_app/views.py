@@ -100,18 +100,17 @@ def edit_task(request):
     if request.is_ajax() and request.method == 'POST':
         t_id = request.POST.get('task_id')
         task = Task.objects.get(id=t_id)
-
+        response = {
+            'STATUS': 'OK'
+        }
         if request.POST.get('new_title') is not None:
             task.title = request.POST.get('new_title')
 
         if request.POST.get('new_deadline') is not None:
             task.deadline = request.POST.get('new_deadline')
             task_is_over = task.deadline <= str(datetime.date.today())
+            response['task_is_over'] = task_is_over
         task.save()
-        response = {
-            'STATUS': 'OK',
-            'task_is_over': task_is_over
-        }
         return HttpResponse(json.dumps(response), content_type='application/json')
 
 
