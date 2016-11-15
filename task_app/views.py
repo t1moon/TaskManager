@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from task_app.forms import TaskForm, UserSignupForm, UserLoginForm
-from task_app.helper import prepare_context, prepare_context_ajax, get_tag_tasks, get_sort_tasks, get_ajax_tasks
+from task_app.helper import prepare_context, prepare_context_ajax, get_ajax_tasks
 from task_app.models import Task, Tag, Profile
 import json
 from django.contrib.auth import authenticate
@@ -34,30 +34,6 @@ def index(request):
         tasks = Task.objects.not_done(u"Все теги", request.user, sorting_by)
         context = prepare_context(request, tasks)
         return render(request, 'index.html', context)
-
-
-@login_required(login_url='login')
-def done(request):
-    sorting_by = '-created_at'
-    tasks = Task.objects.done(request.user, sorting_by)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
-
-
-@login_required(login_url='login')
-def not_done(request):
-    sorting_by = '-created_at'
-    tasks = Task.objects.not_done(request.user, sorting_by)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
-
-
-@login_required(login_url='login')
-def all(request):
-    sorting_by = '-created_at'
-    tasks = Task.objects.all_tasks(request.user, sorting_by)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
 
 
 @csrf_exempt
@@ -96,6 +72,7 @@ def complete_task(request):
             'is_done': task.is_done,
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
+
 
 @csrf_exempt
 def edit_task(request):

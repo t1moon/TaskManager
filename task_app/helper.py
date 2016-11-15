@@ -55,43 +55,6 @@ def prepare_context_ajax(request, tasks):
     }
     return context
 
-
-def get_tag_tasks(request):
-    tag_name = request.GET.get("tag_title")
-    sort_name = request.GET.get("active_sort_title")
-    if sort_name == u"По добавлению":
-        sorting_by = '-created_at'
-    elif sort_name == u"По дедлайну":
-        sorting_by = 'deadline'
-
-    if tag_name == u"Все теги":
-        tasks = Task.objects.not_done(tag_name, request.user, sorting_by)
-    elif tag_name == u"Без тега":
-        tasks = Task.objects.no_tag(tag_name, request.user, sorting_by)
-    else:
-        tasks = Task.objects.tag(tag_name, request.user, sorting_by)
-
-    return tasks
-
-
-def get_sort_tasks(request):
-    sort_name = request.GET.get("active_sort_title")
-    active_tag_title = request.GET.get("active_tag_title")
-    if sort_name == u"По добавлению":
-        sorting_by = '-created_at'
-    elif sort_name == u"По дедлайну":
-        sorting_by = 'deadline'
-
-    if active_tag_title == u"Все теги":
-        tasks = Task.objects.not_done(active_tag_title, request.user, sorting_by)
-    elif active_tag_title == u"Без тега":
-        tasks = Task.objects.no_tag(active_tag_title, request.user, sorting_by)
-    else:
-        tasks = Task.objects.tag(active_tag_title, request.user, sorting_by)
-
-    return tasks
-
-
 def get_ajax_tasks(request):
     tasks = None
     sorting_by = None
