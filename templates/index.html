@@ -34,7 +34,7 @@
                     <h2>Теги</h2>
                     <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
                         <li class="active">
-                            <a class="tags" id="all_tags">
+                            <a class="tags" id="all_tags_count">
                                 <span>Все теги</span>
                                 <span class="count_right badge badge-warning">{{ not_done_count }}</span></a>
                         </li>
@@ -48,7 +48,7 @@
                         {% endfor %}
 
                         <li>
-                            <a class="tags" id="none_tags">
+                            <a class="tags" id="none_tags_count">
                                 <span>Без тега</span>
                                 <span class="count_right badge badge-warning">{{ no_tag_count }}</span></a>
                         </li>
@@ -59,17 +59,17 @@
                     <h2>Статус</h2>
                     <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
                         <li class="active">
-                            <a class="status">
+                            <a class="status" id="not_done_status_count">
                                 <span>Не сделано</span>
                                 <span class="count_right badge badge-warning">{{ not_done_count }}</span></a>
                         </li>
                         <li>
-                            <a class="status">
+                            <a class="status" id="done_status_count">
                                 <span>Сделано</span>
                                 <span class="count_right badge badge-warning">{{ done_count }}</span></a>
                         </li>
                         <li>
-                            <a class="status">
+                            <a class="status" id="all_status_count">
                                 <span>Все</span>
                                 <span class="count_right badge badge-warning">{{ all_count }}</span></a>
                         </li>

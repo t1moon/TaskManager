@@ -9,10 +9,10 @@ $(document).ready(function () {
         var task = $(this).parent()
         var taskid = $(this).parent().attr('data-taskid')
         var sidebar = $(".blog-sidebar")
-        var category = sidebar.find($(".sidebar-module-category"))
-        var tags_title = category.find($(".tags")).find("span").not(".badge");
-        var all_tags_count = category.find("#all_tags").find(".badge");
-        var none_tags_count = category.find("#none_tags").find(".badge");
+        var tag = sidebar.find($(".sidebar-module-category"))
+        var tags_title = tag.find($(".tags")).find("span").not(".badge");
+        var all_tags_count = tag.find("#all_tags_count").find(".badge");
+        var none_tags_count = tag.find("#none_tags_count").find(".badge");
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
             $.ajax({
@@ -32,7 +32,7 @@ $(document).ready(function () {
                         all_tags_count.text(parseInt(all_tags_count.text()) - 1)
                     }
 
-                    // delete from tags
+                    // delete pills from tags
                     $.each(tags_title, function (index, value) {
                         // if it's a searched tag and count == 1 then remove
                         if ($.inArray($(value).text(), data.tag_list) !== -1) {

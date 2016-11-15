@@ -43,7 +43,7 @@ def prepare_context(request, tasks):
     }
     return context
 
-
+# For correct rendering ajax pagination and date
 def prepare_context_ajax(request, tasks):
     date_now = datetime.date.today()
     page = paginate(tasks, request, 10)
