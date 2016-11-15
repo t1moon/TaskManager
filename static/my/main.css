@@ -128,6 +128,14 @@ h6, .h6 {
     border-radius: 4px;
 }
 
+.sidebar-module-status {
+    /*padding: 15px;*/
+    padding-bottom: 5px;
+    border-radius: 4px;
+}
+
+
+
 .sidebar-module ul {
     margin-top: 0;
 }

@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from task_app.forms import TaskForm, UserSignupForm, UserLoginForm
-from task_app.helper import prepare_context, prepare_context_ajax, get_tag_tasks, get_sort_tasks
+from task_app.helper import prepare_context, prepare_context_ajax, get_tag_tasks, get_sort_tasks, get_ajax_tasks
 from task_app.models import Task, Tag, Profile
 import json
 from django.contrib.auth import authenticate
@@ -21,11 +21,7 @@ from taskmanager.settings import EMAIL_HOST_USER
 @login_required(login_url='login')
 def index(request):
     if request.is_ajax() and request.method == 'GET':
-        if request.GET.get("type") == "sort":
-            tasks = get_sort_tasks(request)
-        if request.GET.get("type") == "tag":
-            tasks = get_tag_tasks(request)
-
+        tasks = get_ajax_tasks(request)
         context = prepare_context_ajax(request, tasks)
         html = render_to_string('task_block.html', context)
         response = {
@@ -35,7 +31,7 @@ def index(request):
 
     else:
         sorting_by = '-created_at'
-        tasks = Task.objects.not_done(request.user, sorting_by)
+        tasks = Task.objects.not_done(u"Все теги", request.user, sorting_by)
         context = prepare_context(request, tasks)
         return render(request, 'index.html', context)
 

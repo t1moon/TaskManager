@@ -153,28 +153,66 @@ $(document).ready(function () {
         })
     })
 
-    // Choice tag ajax
-    $(".tags").on("click", function() {
-        var tag_title = $(this).find("span").not(".badge").text();
-        var list_item = $(this).parent()
-        var category = $(".blog-sidebar").find($(".sidebar-module-category"))
+    // Ajax status tag and sort
+
+    $(".status, .tags, .sort").on("click", function () {
+        var type = $(this).attr('class')
+
         var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
-        var last_active_pill = category.find($(".active"))
-        var active_sort_title = sort.find($(".active")).find("a").text()
+        var tag = $(".blog-sidebar").find($(".sidebar-module-category"))
+        var status = $(".blog-sidebar").find($(".sidebar-module-status"))
+        var sort_last_active_pill = sort.find($(".active"))
+        var tags_last_active_pill = tag.find($(".active"))
+        var status_last_active_pill = status.find($(".active"))
+
+        if (type == "sort") {
+            var active_sort_title = $(this).text()
+            var sort_active_pill = $(this).parent()
+
+            var active_tag_title = tag.find($(".active")).find("span").not(".badge").text()
+            var active_status_title = status.find($(".active")).find("span").not(".badge").text();
+
+        }
+        if (type == "tags") {
+            var active_tag_title = $(this).find("span").not(".badge").text();
+            var tags_active_pill = $(this).parent()
+
+            var active_sort_title = sort.find($(".active")).find("a").text()
+            var active_status_title = status.find($(".active")).find("span").not(".badge").text();
+        }
+        if (type == "status") {
+            var active_status_title = $(this).find("span").not(".badge").text();
+            var status_active_pill = $(this).parent()
+
+            var active_sort_title = sort.find($(".active")).find("a").text()
+            var active_tag_title = tag.find($(".active")).find("span").not(".badge").text();
+        }
+
         $.ajax({
             url: '/',
             type: 'GET',
             contentType: 'application/x-www-form-urlencoded',
             dataType: 'json',
             data: {
-                type: "tag",
-                tag_title: tag_title,
+                active_status_title: active_status_title,
+                active_tag_title: active_tag_title,
                 active_sort_title: active_sort_title
             },
             success: function (data) {
                 $(".replace-tasks").html(data.html_response)
-                last_active_pill.removeClass("active")
-                list_item.addClass("active");
+
+                if (type == "sort") {
+                    sort_last_active_pill.removeClass("active")
+                    sort_active_pill.addClass("active");
+                }
+                if (type == "tags") {
+                    tags_last_active_pill.removeClass("active")
+                    tags_active_pill.addClass("active");
+                }
+                if (type == "status") {
+                    status_last_active_pill.removeClass("active")
+                    status_active_pill.addClass("active");
+                }
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);
@@ -182,64 +220,38 @@ $(document).ready(function () {
         })
     })
 
-    // For tag that are under tasks
-
-    $(document).on("click", '.blog-post-meta', function() {
-        var tag_title = $(this).text().replace("#", "");
-        var category = $(".blog-sidebar").find($(".sidebar-module-category"))
+//    For tags that below a task
+    $(document).on("click", '.blog-post-meta', function () {
         var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
+        var tag = $(".blog-sidebar").find($(".sidebar-module-category"))
+        var status = $(".blog-sidebar").find($(".sidebar-module-status"))
+        var tags_last_active_pill = tag.find($(".active"))
+
+        var active_tag_title = $(this).text().replace("#", "");
         var active_sort_title = sort.find($(".active")).find("a").text()
+        var active_status_title = status.find($(".active")).find("span").not(".badge").text();
+
         // let's find tag on sidebar, that matches
-        tags = category.find($(".tags")).find("span").not(".badge");
-        var list_item;
-        $.each(tags, function(index, value) {
-            if ($(value).text() == tag_title) {
-                list_item = $(value).parent().parent();
+        tags = tag.find($(".tags")).find("span").not(".badge");
+        $.each(tags, function (index, value) {
+            if ($(value).text() == active_tag_title) {
+                tags_active_pill = $(value).parent().parent();
             }
         })
-        var last_active_pill = category.find($(".active"))
         $.ajax({
             url: '/',
             type: 'GET',
             contentType: 'application/x-www-form-urlencoded',
             dataType: 'json',
             data: {
-                type: "tag",
-                tag_title: tag_title,
-                active_sort_title: active_sort_title
+                active_tag_title: active_tag_title,
+                active_sort_title: active_sort_title,
+                active_status_title: active_status_title
             },
             success: function (data) {
                 $(".replace-tasks").html(data.html_response)
-                last_active_pill.removeClass("active")
-                list_item.addClass("active");
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText + ' ' + status + ' ' + error);
-            }
-        })
-    })
-
-    $(".sort").on("click", function() {
-        var sort_title = $(this).text()
-        var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
-        var category = $(".blog-sidebar").find($(".sidebar-module-category"))
-        var last_active_pill = sort.find($(".active"))
-        var list_item = $(this).parent()
-        var active_tag_title = category.find($(".active")).find("span").not(".badge").text()
-        $.ajax({
-            url: '/',
-            type: 'GET',
-            contentType: 'application/x-www-form-urlencoded',
-            dataType: 'json',
-            data: {
-                type: "sort",
-                sort_title: sort_title,
-                active_tag_title: active_tag_title
-            },
-            success: function (data) {
-                $(".replace-tasks").html(data.html_response)
-                last_active_pill.removeClass("active")
-                list_item.addClass("active");
+                tags_last_active_pill.removeClass("active")
+                tags_active_pill.addClass("active");
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);

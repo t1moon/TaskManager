@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import datetime
@@ -10,14 +11,30 @@ from django.utils import timezone
 
 
 class TaskManager(models.Manager):
-    def not_done(self, author, sorting_by):
-        return self.filter(is_deleted=False).filter(is_done=False).filter(user=author).order_by(sorting_by)
+    def not_done(self, tag_name, author, sorting_by):
+        if tag_name == u"Все теги":
+            return self.filter(is_done=False, user=author, is_deleted=False).order_by(sorting_by)
+        elif tag_name == u"Без тега":
+            return self.filter(tags__isnull=True, is_done=False, user=author, is_deleted=False).order_by(sorting_by)
+        else:
+            return self.filter(tags__title__exact=tag_name, is_done=False, user=author, is_deleted=False).order_by(sorting_by)
 
-    def done(self, author, sorting_by):
-        return self.filter(is_done=True).filter(user=author).order_by(sorting_by)
+    def done(self, tag_name, author, sorting_by):
+        if tag_name == u"Все теги":
+            return self.filter(is_done=True, user=author, is_deleted=False).order_by(sorting_by)
+        elif tag_name == u"Без тега":
+            return self.filter(tags__isnull=True, is_done=True, user=author, is_deleted=False).order_by(sorting_by)
+        else:
+            return self.filter(tags__title__exact=tag_name, is_done=True, user=author, is_deleted=False).order_by(sorting_by)
 
-    def all_tasks(self, author, sorting_by):
-        return self.filter(is_deleted=False).filter(user=author).order_by(sorting_by)
+    def all_tasks(self, tag_name, author, sorting_by):
+        if tag_name == u"Все теги":
+            return self.filter(user=author, is_deleted=False).order_by(sorting_by)
+        elif tag_name == u"Без тега":
+            return self.filter(tags__isnull=True, user=author, is_deleted=False).order_by(sorting_by)
+        else:
+            return self.filter(tags__title__exact=tag_name, user=author, is_deleted=False).order_by(sorting_by)
+
 
     # def deadline_sort(self, author):
     #     return self.filter(is_deleted=False).filter(is_done=False).filter(user=author).order_by('deadline')

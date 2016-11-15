@@ -55,21 +55,21 @@
                     </ul>
                 </div>
 
-                <div class="sidebar-module sidebar-module-category">
+                <div class="sidebar-module sidebar-module-status">
                     <h2>Статус</h2>
                     <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
-                        <li class="{% if request.path == '/not_done' %}active{% endif %}">
-                            <a href="{% url 'not_done' %}">
+                        <li class="active">
+                            <a class="status">
                                 <span>Не сделано</span>
                                 <span class="count_right badge badge-warning">{{ not_done_count }}</span></a>
                         </li>
-                        <li class="{% if request.path == '/done' %}active{% endif %}">
-                            <a href="{% url 'done' %}">
+                        <li>
+                            <a class="status">
                                 <span>Сделано</span>
                                 <span class="count_right badge badge-warning">{{ done_count }}</span></a>
                         </li>
-                        <li class="{% if request.path == '/all' %}active{% endif %}">
-                            <a href="{% url 'all' %}">
+                        <li>
+                            <a class="status">
                                 <span>Все</span>
                                 <span class="count_right badge badge-warning">{{ all_count }}</span></a>
                         </li>
