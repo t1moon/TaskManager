@@ -31,6 +31,7 @@ class TaskManager(models.Manager):
             filter(user=author).order_by(sorting_by)
 
 
+
 class Tag(models.Model):
     title = models.CharField(max_length=255)
 

@@ -167,9 +167,13 @@ h6, .h6 {
  */
 
 .blog-post {
-    margin-bottom: 0px;
+    margin-bottom: 2px;
+    padding: 2px;
 }
 
+.blog-post:hover {  
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.08),0 0 0 1px rgba(0,0,0,0.08);
+}
 .blog-post-title {
     margin-bottom: 5px !important;
     margin-right: 5px !important;
