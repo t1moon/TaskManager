@@ -11,8 +11,8 @@ $(document).ready(function () {
         var sidebar = $(".blog-sidebar")
         var category = sidebar.find($(".sidebar-module-category"))
         var tags_title = category.find($(".tags")).find("span").not(".badge");
-        var all_tags_count = category.find("#all_tags").find("span")
-        var none_tags_count = category.find("#none_tags").find("span")
+        var all_tags_count = category.find("#all_tags").find(".badge");
+        var none_tags_count = category.find("#none_tags").find(".badge");
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
             $.ajax({
@@ -25,9 +25,11 @@ $(document).ready(function () {
                     task.remove()
 
                     //delete counts
-                    all_tags_count.text(parseInt(all_tags_count.text()) - 1)
+
                     if (data.tag_list.length == 0) {
                         none_tags_count.text(parseInt(none_tags_count.text() - 1))
+                    } else {
+                        all_tags_count.text(parseInt(all_tags_count.text()) - 1)
                     }
 
                     // delete from tags

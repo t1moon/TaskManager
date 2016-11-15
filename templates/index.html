@@ -34,7 +34,7 @@
                     <h2>Теги</h2>
                     <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
                         <li class="active">
-                            <a class="tags">
+                            <a class="tags" id="all_tags">
                                 <span>Все теги</span>
                                 <span class="count_right badge badge-warning">{{ not_done_count }}</span></a>
                         </li>
@@ -48,7 +48,7 @@
                         {% endfor %}
 
                         <li>
-                            <a class="tags">
+                            <a class="tags" id="none_tags">
                                 <span>Без тега</span>
                                 <span class="count_right badge badge-warning">{{ no_tag_count }}</span></a>
                         </li>
