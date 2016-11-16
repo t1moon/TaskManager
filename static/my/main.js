@@ -1,6 +1,13 @@
 /**
  * Created by timur on 19.10.16.
  */
+
+function change_count_tag(data, tags_title, all_tags_count,
+                          none_tags_count, done_status_count,
+                          not_done_status_count, all_status_count) {
+
+
+}
 $(document).ready(function () {
 
     // Delete
@@ -16,8 +23,8 @@ $(document).ready(function () {
         var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
         var done_status_count = status.find($("#done_status_count")).find(".badge");
         var all_status_count = status.find($("#all_status_count")).find(".badge");
-        var all_tags_count = tag.find("#all_tags_count").find(".badge");
-        var none_tags_count = tag.find("#none_tags_count").find(".badge");
+        var all_tags_count = tag.find($("#all_tags_count")).find(".badge");
+        var none_tags_count = tag.find($("#none_tags_count")).find(".badge");
 
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
@@ -31,21 +38,21 @@ $(document).ready(function () {
                     task.remove()
 
                     //delete counts in tags
-
                     if (data.tag_list.length == 0) {
-                        none_tags_count.text(parseInt(none_tags_count.text() - 1))
+                        none_tags_count.text(parseInt(none_tags_count.text()) - 1)
+                        all_tags_count.text(parseInt(all_tags_count.text()) - 1)
                     } else {
                         all_tags_count.text(parseInt(all_tags_count.text()) - 1)
                     }
 
-                    // detele counts in status
+                    // delete counts in status
 
                     if (data.is_done) {
-                        done_status_count.text(parseInt(done_status_count.text() - 1))
-                        all_status_count.text(parseInt(all_status_count.text() - 1))
+                        done_status_count.text(parseInt(done_status_count.text()) - 1)
+                        all_status_count.text(parseInt(all_status_count.text()) - 1)
                     } else {
-                        not_done_status_count.text(parseInt(not_done_status_count.text() - 1))
-                        all_status_count.text(parseInt(all_status_count.text() - 1))
+                        not_done_status_count.text(parseInt(not_done_status_count.text()) - 1)
+                        all_status_count.text(parseInt(all_status_count.text()) - 1)
                     }
 
 
@@ -62,7 +69,6 @@ $(document).ready(function () {
                             }
                         }
                     })
-
                     console.log("task deleted" + taskid)
                 },
                 error: function (xhr, status, error) {
@@ -149,8 +155,14 @@ $(document).ready(function () {
 
         var sidebar = $(".blog-sidebar")
         var status = sidebar.find($(".sidebar-module-status"))
+        var tag = sidebar.find($(".sidebar-module-category"))
+
         var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
         var done_status_count = status.find($("#done_status_count")).find(".badge");
+
+        var all_tags_count = tag.find($("#all_tags_count")).find(".badge");
+        var none_tags_count = tag.find($("#none_tags_count")).find(".badge");
+        var tags_title = tag.find($(".tags")).find("span").not(".badge");
 
         $.ajax({
             url: '/complete_task',
@@ -167,6 +179,27 @@ $(document).ready(function () {
 
                     not_done_status_count.text(parseInt(not_done_status_count.text()) - 1)
                     done_status_count.text(parseInt(done_status_count.text()) + 1)
+
+                    if (data.tag_list.length == 0) {
+                        none_tags_count.text(parseInt(none_tags_count.text()) - 1)
+                        all_tags_count.text(parseInt(all_tags_count.text()) - 1)
+                    } else {
+                        all_tags_count.text(parseInt(all_tags_count.text()) - 1)
+                    }
+                    // delete pills from tags
+                    $.each(tags_title, function (index, value) {
+                        // if it's a searched tag and count == 1 then remove
+                        if ($.inArray($(value).text(), data.tag_list) !== -1) {
+                            tag_count = $(value).next().text();
+                            if (parseInt(tag_count) == 1) {
+                                $(value).parent().remove();
+                            } else {
+                                tag_count = tag_count - 1;
+                                $(value).next().text(parseInt(tag_count));
+                            }
+                        }
+                    })
+
                 } else {
                     console.log("TASK IS unDONE")
                     task_title.css('text-decoration', 'none');
@@ -174,7 +207,27 @@ $(document).ready(function () {
 
                     not_done_status_count.text(parseInt(not_done_status_count.text()) + 1)
                     done_status_count.text(parseInt(done_status_count.text()) - 1)
+                    if (data.tag_list.length == 0) {
+                        none_tags_count.text(parseInt(none_tags_count.text()) + 1)
+                        all_tags_count.text(parseInt(all_tags_count.text()) + 1)
+                    } else {
+                        all_tags_count.text(parseInt(all_tags_count.text()) + 1)
+                    }
+                    // delete pills from tags
+                    $.each(tags_title, function (index, value) {
+                        // if it's a searched tag and count == 1 then remove
+                        if ($.inArray($(value).text(), data.tag_list) !== -1) {
+                            tag_count = $(value).next().text();
+                            if (parseInt(tag_count) == 1) {
+                                $(value).parent().remove();
+                            } else {
+                                tag_count = tag_count + 1;
+                                $(value).next().text(parseInt(tag_count));
+                            }
+                        }
+                    })
                 }
+
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);
@@ -294,15 +347,15 @@ $(document).ready(function () {
                 tags_active_pill.addClass("active");
 
                 // Need to change counts in status
-                    var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
-                    var done_status_count = status.find($("#done_status_count")).find(".badge");
-                    var all_status_count = status.find($("#all_status_count")).find(".badge");
+                var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
+                var done_status_count = status.find($("#done_status_count")).find(".badge");
+                var all_status_count = status.find($("#all_status_count")).find(".badge");
 
-                    // all count = tag_count
-                    all_status_count.text(tags_active_pill.find($(".badge")).text())
-                    not_done_status_count.text(data.not_done_status_count)
-                    // done_count = all - not_done
-                    done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count()))
+                // all count = tag_count
+                all_status_count.text(tags_active_pill.find($(".badge")).text())
+                not_done_status_count.text(data.not_done_status_count)
+                // done_count = all - not_done
+                done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count()))
 
             },
             error: function (xhr, status, error) {

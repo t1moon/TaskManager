@@ -77,9 +77,16 @@ def complete_task(request):
             else:
                 task.is_done = False
         task.save()
+        tags = task.tags.all()
+        tag_list = []
+        for tag in tags:
+            tag_list.append(tag.title)
+
         response = {
             'STATUS': 'OK',
             'is_done': task.is_done,
+            'tag_list': tag_list
+
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 

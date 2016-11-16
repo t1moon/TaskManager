@@ -23,11 +23,14 @@ def paginate(object_list, request, on_list):
 
 def prepare_context(request, tasks):
     all_count = Task.objects.filter(is_deleted=False, user=request.user).order_by('-created_at').count()
-    no_tag_count = Task.objects.filter(is_deleted=False, tags=None, user=request.user).count()
+    no_tag_count = Task.objects.filter(is_deleted=False, tags=None, user=request.user, is_done=False).count()
     not_done_count = Task.objects.filter(is_deleted=False, is_done=False, user=request.user).order_by(
         '-created_at').count()
     done_count = Task.objects.filter(is_deleted=False, is_done=True, user=request.user,).order_by('-created_at').count()
-    tags = Tag.objects.filter(task__is_deleted=False, task__user=request.user).distinct()
+    tags = Tag.objects.filter(task__is_deleted=False, task__user=request.user, task__is_done=False).distinct()
+    tags_count = []
+    for tag in tags:
+        tag.task_set = tag.task_set.filter(is_done=False)
     date_now = datetime.date.today()
     page = paginate(tasks, request, 10)
     form = TaskForm()
