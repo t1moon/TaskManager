@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from task_app.forms import TaskForm, UserSignupForm, UserLoginForm
-from task_app.helper import prepare_context, prepare_context_ajax, get_ajax_tasks
+from task_app.helper import prepare_context, prepare_context_ajax, get_ajax_tasks, get_count_status
 from task_app.models import Task, Tag, Profile
 import json
 from django.contrib.auth import authenticate
@@ -21,13 +21,19 @@ from taskmanager.settings import EMAIL_HOST_USER
 @login_required(login_url='login')
 def index(request):
     if request.is_ajax() and request.method == 'GET':
+
         tasks = get_ajax_tasks(request)
-        context = prepare_context_ajax(request, tasks)
+        context = prepare_context_ajax(request, tasks)  # for pagination and date
+
+        count_status_ajax = get_count_status(request)   # for count status ajax
+        not_done_status_count = count_status_ajax["not_done_status_count"]
+        all_status_count = count_status_ajax["all_status_count"]
+
         html = render_to_string('task_block.html', context)
-        tasks_count = tasks.count()
         response = {
             'html_response': html,
-            'not_done_status_count': tasks_count
+            'not_done_status_count': not_done_status_count,
+            'all_status_count': all_status_count
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 

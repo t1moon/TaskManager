@@ -244,10 +244,10 @@ $(document).ready(function () {
                     var all_status_count = status.find($("#all_status_count")).find(".badge");
 
                     // all count = tag_count
-                    all_status_count.text(tags_active_pill.find($(".badge")).text())
+                    all_status_count.text(data.all_status_count)
                     not_done_status_count.text(data.not_done_status_count)
                     // done_count = all - not_done
-                    done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count()))
+                    done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count.text()))
                 }
                 if (type == "status") {
                     status_last_active_pill.removeClass("active")
@@ -303,7 +303,7 @@ $(document).ready(function () {
                     not_done_status_count.text(data.not_done_status_count)
                     // done_count = all - not_done
                     done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count()))
-                
+
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);

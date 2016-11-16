@@ -43,6 +43,7 @@ def prepare_context(request, tasks):
     }
     return context
 
+
 # For correct rendering ajax pagination and date
 def prepare_context_ajax(request, tasks):
     date_now = datetime.date.today()
@@ -54,6 +55,7 @@ def prepare_context_ajax(request, tasks):
         "form": form
     }
     return context
+
 
 def get_ajax_tasks(request):
     tasks = None
@@ -76,3 +78,23 @@ def get_ajax_tasks(request):
         tasks = Task.objects.all_tasks(active_tag_title, request.user, sorting_by)
 
     return tasks
+
+
+def get_count_status(request):
+    active_tag_title = request.GET.get("active_tag_title")
+    active_sort_title = request.GET.get("active_sort_title")
+    sorting_by = None
+    if active_sort_title == u"По добавлению":
+        sorting_by = '-created_at'
+    else:
+        sorting_by = 'deadline'
+
+    all_status_count = Task.objects.all_tasks(active_tag_title, request.user, sorting_by).count()
+    not_done_status_count = Task.objects.not_done(active_tag_title, request.user, sorting_by).count()
+
+    result = {
+        "all_status_count": all_status_count,
+        "not_done_status_count": not_done_status_count,
+        "sorting_by": sorting_by
+    }
+    return result
