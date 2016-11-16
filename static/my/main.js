@@ -287,7 +287,7 @@ $(document).ready(function () {
     })
 
 //    For tags that below a task
-    $(document).on("click", '.blog-post-meta', function () {
+    $(document).on("click", '.blog-post-meta-link', function () {
         var tags_last_active_pill = tag.find($(".active"))
 
         var active_tag_title = $(this).text().replace("#", "");
