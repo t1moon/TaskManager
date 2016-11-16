@@ -241,7 +241,13 @@ $(document).ready(function () {
                     // Need to change counts in status
                     var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
                     var done_status_count = status.find($("#done_status_count")).find(".badge");
+                    var all_status_count = status.find($("#all_status_count")).find(".badge");
 
+                    // all count = tag_count
+                    all_status_count.text(tags_active_pill.find($(".badge")).text())
+                    not_done_status_count.text(data.not_done_status_count)
+                    // done_count = all - not_done
+                    done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count()))
                 }
                 if (type == "status") {
                     status_last_active_pill.removeClass("active")
@@ -286,6 +292,18 @@ $(document).ready(function () {
                 $(".replace-tasks").html(data.html_response)
                 tags_last_active_pill.removeClass("active")
                 tags_active_pill.addClass("active");
+
+                // Need to change counts in status
+                    var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
+                    var done_status_count = status.find($("#done_status_count")).find(".badge");
+                    var all_status_count = status.find($("#all_status_count")).find(".badge");
+
+                    // all count = tag_count
+                    all_status_count.text(tags_active_pill.find($(".badge")).text())
+                    not_done_status_count.text(data.not_done_status_count)
+                    // done_count = all - not_done
+                    done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count()))
+                
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);

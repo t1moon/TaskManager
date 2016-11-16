@@ -24,8 +24,10 @@ def index(request):
         tasks = get_ajax_tasks(request)
         context = prepare_context_ajax(request, tasks)
         html = render_to_string('task_block.html', context)
+        tasks_count = tasks.count()
         response = {
-            'html_response': html
+            'html_response': html,
+            'not_done_status_count': tasks_count
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 
