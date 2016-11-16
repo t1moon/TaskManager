@@ -48,8 +48,10 @@ def delete_task(request):
         for tag in tags:
             tag.task_set.remove(task)
             tag_list.append(tag.title)
+        is_done = task.is_done
         response = {
-            'tag_list': tag_list
+            'tag_list': tag_list,
+            'is_done': is_done
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 

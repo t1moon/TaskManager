@@ -10,9 +10,15 @@ $(document).ready(function () {
         var taskid = $(this).parent().attr('data-taskid')
         var sidebar = $(".blog-sidebar")
         var tag = sidebar.find($(".sidebar-module-category"))
+        var status = sidebar.find($(".sidebar-module-status"))
         var tags_title = tag.find($(".tags")).find("span").not(".badge");
+
+        var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
+        var done_status_count = status.find($("#done_status_count")).find(".badge");
+        var all_status_count = status.find($("#all_status_count")).find(".badge");
         var all_tags_count = tag.find("#all_tags_count").find(".badge");
         var none_tags_count = tag.find("#none_tags_count").find(".badge");
+
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
             $.ajax({
@@ -24,13 +30,24 @@ $(document).ready(function () {
                 success: function (data) {
                     task.remove()
 
-                    //delete counts
+                    //delete counts in tags
 
                     if (data.tag_list.length == 0) {
                         none_tags_count.text(parseInt(none_tags_count.text() - 1))
                     } else {
                         all_tags_count.text(parseInt(all_tags_count.text()) - 1)
                     }
+
+                    // detele counts in status
+
+                    if (data.is_done) {
+                        done_status_count.text(parseInt(done_status_count.text() - 1))
+                        all_status_count.text(parseInt(all_status_count.text() - 1))
+                    } else {
+                        not_done_status_count.text(parseInt(not_done_status_count.text() - 1))
+                        all_status_count.text(parseInt(all_status_count.text() - 1))
+                    }
+
 
                     // delete pills from tags
                     $.each(tags_title, function (index, value) {
@@ -129,6 +146,12 @@ $(document).ready(function () {
         var task_title = $(this).parent().parent().find($(".blog-post-title"))
         var taskid = $(this).parent().parent().parent().attr('data-taskid')
         var is_done = task.attr('data-isdone')
+
+        var sidebar = $(".blog-sidebar")
+        var status = sidebar.find($(".sidebar-module-status"))
+        var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
+        var done_status_count = status.find($("#done_status_count")).find(".badge");
+
         $.ajax({
             url: '/complete_task',
             type: 'POST',
@@ -141,10 +164,16 @@ $(document).ready(function () {
                     console.log("TASK IS DONE")
                     task_title.css('text-decoration', 'line-through');
                     task.fadeOut("slow")
+
+                    not_done_status_count.text(parseInt(not_done_status_count.text()) - 1)
+                    done_status_count.text(parseInt(done_status_count.text()) + 1)
                 } else {
                     console.log("TASK IS unDONE")
                     task_title.css('text-decoration', 'none');
                     task.fadeOut("slow")
+
+                    not_done_status_count.text(parseInt(not_done_status_count.text()) + 1)
+                    done_status_count.text(parseInt(done_status_count.text()) - 1)
                 }
             },
             error: function (xhr, status, error) {
@@ -157,7 +186,7 @@ $(document).ready(function () {
 
     $(".status, .tags, .sort").on("click", function () {
         var type = $(this).attr('class')
-
+        //prepearing init values
         var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
         var tag = $(".blog-sidebar").find($(".sidebar-module-category"))
         var status = $(".blog-sidebar").find($(".sidebar-module-status"))
@@ -208,6 +237,11 @@ $(document).ready(function () {
                 if (type == "tags") {
                     tags_last_active_pill.removeClass("active")
                     tags_active_pill.addClass("active");
+
+                    // Need to change counts in status
+                    var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
+                    var done_status_count = status.find($("#done_status_count")).find(".badge");
+
                 }
                 if (type == "status") {
                     status_last_active_pill.removeClass("active")
