@@ -2,30 +2,22 @@
  * Created by timur on 19.10.16.
  */
 
-function change_count_tag(data, tags_title, all_tags_count,
-                          none_tags_count, done_status_count,
-                          not_done_status_count, all_status_count) {
-
-
-}
 $(document).ready(function () {
+    var sidebar = $(".blog-sidebar")
+    var sort = sidebar.find($(".sidebar-module-sort"))
+    var tag = sidebar.find($(".sidebar-module-category"))
+    var status = sidebar.find($(".sidebar-module-status"))
+    var tags_title = tag.find($(".tags")).find("span").not(".badge");
+    var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
+    var done_status_count = status.find($("#done_status_count")).find(".badge");
+    var all_status_count = status.find($("#all_status_count")).find(".badge");
+    var all_tags_count = tag.find($("#all_tags_count")).find(".badge");
+    var none_tags_count = tag.find($("#none_tags_count")).find(".badge");
 
     // Delete
-
     $(document).on("click", ".delete-button", function () {
         var task = $(this).parent()
         var taskid = $(this).parent().attr('data-taskid')
-        var sidebar = $(".blog-sidebar")
-        var tag = sidebar.find($(".sidebar-module-category"))
-        var status = sidebar.find($(".sidebar-module-status"))
-        var tags_title = tag.find($(".tags")).find("span").not(".badge");
-
-        var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
-        var done_status_count = status.find($("#done_status_count")).find(".badge");
-        var all_status_count = status.find($("#all_status_count")).find(".badge");
-        var all_tags_count = tag.find($("#all_tags_count")).find(".badge");
-        var none_tags_count = tag.find($("#none_tags_count")).find(".badge");
-
         is_confirm = confirm("Вы действительно хотите удалить задачу?")
         if (is_confirm) {
             $.ajax({
@@ -83,11 +75,7 @@ $(document).ready(function () {
     });
 
     //Edit text
-
     $(document).on("click", ".edit-button", function () {
-        var sidebar = $(".blog-sidebar")
-        var category = sidebar.find($(".sidebar-module-category"))
-        var tags = category.find($(".tags")).find("span").not(".badge");
         var taskid = $(this).parent().attr('data-taskid')
         $(this).parent().children(".input-group").find(".blog-post-title").prop('readonly', false).focus()
         $(this).parent().children(".input-group").find(".blog-post-title").keypress(function (e) {
@@ -153,17 +141,6 @@ $(document).ready(function () {
         var taskid = $(this).parent().parent().parent().attr('data-taskid')
         var is_done = task.attr('data-isdone')
 
-        var sidebar = $(".blog-sidebar")
-        var status = sidebar.find($(".sidebar-module-status"))
-        var tag = sidebar.find($(".sidebar-module-category"))
-
-        var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
-        var done_status_count = status.find($("#done_status_count")).find(".badge");
-
-        var all_tags_count = tag.find($("#all_tags_count")).find(".badge");
-        var none_tags_count = tag.find($("#none_tags_count")).find(".badge");
-        var tags_title = tag.find($(".tags")).find("span").not(".badge");
-
         $.ajax({
             url: '/complete_task',
             type: 'POST',
@@ -227,7 +204,6 @@ $(document).ready(function () {
                         }
                     })
                 }
-
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText + ' ' + status + ' ' + error);
@@ -240,7 +216,7 @@ $(document).ready(function () {
     $(".status, .tags, .sort").on("click", function () {
         var type = $(this).attr('class')
         //prepearing init values
-        var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
+
         var tag = $(".blog-sidebar").find($(".sidebar-module-category"))
         var status = $(".blog-sidebar").find($(".sidebar-module-status"))
         var sort_last_active_pill = sort.find($(".active"))
@@ -292,9 +268,6 @@ $(document).ready(function () {
                     tags_active_pill.addClass("active");
 
                     // Need to change counts in status
-                    var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
-                    var done_status_count = status.find($("#done_status_count")).find(".badge");
-                    var all_status_count = status.find($("#all_status_count")).find(".badge");
 
                     // all count = tag_count
                     all_status_count.text(data.all_status_count)
@@ -315,9 +288,6 @@ $(document).ready(function () {
 
 //    For tags that below a task
     $(document).on("click", '.blog-post-meta', function () {
-        var sort = $(".blog-sidebar").find($(".sidebar-module-sort"))
-        var tag = $(".blog-sidebar").find($(".sidebar-module-category"))
-        var status = $(".blog-sidebar").find($(".sidebar-module-status"))
         var tags_last_active_pill = tag.find($(".active"))
 
         var active_tag_title = $(this).text().replace("#", "");
@@ -347,15 +317,12 @@ $(document).ready(function () {
                 tags_active_pill.addClass("active");
 
                 // Need to change counts in status
-                var not_done_status_count = status.find($("#not_done_status_count")).find(".badge");
-                var done_status_count = status.find($("#done_status_count")).find(".badge");
-                var all_status_count = status.find($("#all_status_count")).find(".badge");
 
                 // all count = tag_count
                 all_status_count.text(tags_active_pill.find($(".badge")).text())
                 not_done_status_count.text(data.not_done_status_count)
                 // done_count = all - not_done
-                done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count()))
+                done_status_count.text(parseInt(all_status_count.text()) - parseInt(not_done_status_count.text()))
 
             },
             error: function (xhr, status, error) {
