@@ -121,7 +121,7 @@ def add_task(request):
         else:
             enable_modal = True
             sorting_by = '-created_at'
-            tasks = Task.objects.not_done(request.user, sorting_by)
+            tasks = Task.objects.not_done(u"Все теги", request.user, sorting_by)
             context = prepare_context(request, tasks)
             context['enable_modal'] = enable_modal
             context['form'] = form
