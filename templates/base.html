@@ -27,6 +27,8 @@
 
 <body>
 <div class="blog-masthead">
+<a class="navbar-brand" href="http://disputebills.com"><img src="https://cdn2.iconfinder.com/data/icons/justice/512/list_ok_notebook_notation_written-512.png" alt="ToDo">
+        </a>
     <div class="container">
         <nav class="blog-nav">
             <a class="blog-nav-item
@@ -40,7 +42,6 @@
                 <a class="blog-nav-item
                  {% if request.path == '/login' %}active{% endif %}" href="{% url 'login' %}">Log in</a>
             {% endif %}
-
         </nav>
     </div>
 </div>

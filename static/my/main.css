@@ -38,6 +38,19 @@ h6, .h6 {
  * Masthead for nav
  */
 
+.navbar-brand {
+    padding: 0px !important;
+    height: 40px;
+    margin-left: 250px;
+
+}
+
+.navbar-brand > img {
+    height: 100% !important;
+    padding: 5px !important;
+    width: auto !important;
+}
+
 .blog-masthead {
     background-color: #428bca;
     -webkit-box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
@@ -81,6 +94,7 @@ h6, .h6 {
 .active-link {
     text-decoration: underline;
 }
+
 /*
  * Blog name and description
  */
@@ -134,8 +148,6 @@ h6, .h6 {
     border-radius: 4px;
 }
 
-
-
 .sidebar-module ul {
     margin-top: 0;
 }
@@ -144,7 +156,6 @@ h6, .h6 {
     margin-top: 10px;
     margin-bottom: 5px;
 }
-
 
 .blog-sidebar li {
     font-size: 18px;
@@ -193,7 +204,7 @@ h6, .h6 {
 }
 
 .deadline-over {
-    box-shadow:  0px 0px 6px #d31919;
+    box-shadow: 0px 0px 6px #d31919;
 }
 
 .blog-post-meta {
@@ -218,7 +229,6 @@ h6, .h6 {
     /*background-color: #f9f9f9;*/
     /*border-top: 1px solid #e5e5e5;*/
 }
-
 
 .uk-form-calendar {
     display: inline-block;
@@ -272,10 +282,11 @@ h6, .h6 {
 }
 
 .nav-pills-custom > li > a {
-    padding:7px 15px !important;
+    padding: 7px 15px !important;
 
 }
-.nav-pills>li.active>a {
+
+.nav-pills > li.active > a {
     background-color: #428bca;
 }
 
