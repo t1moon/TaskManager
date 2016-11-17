@@ -4,12 +4,13 @@ import sha
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from task_app.forms import TaskForm, UserSignupForm, UserLoginForm
-from task_app.helper import prepare_context
+from task_app.helper import prepare_context, prepare_context_ajax, get_ajax_tasks, get_count_status
 from task_app.models import Task, Tag, Profile
 import json
 from django.contrib.auth import authenticate
@@ -19,43 +20,28 @@ from taskmanager.settings import EMAIL_HOST_USER
 
 @login_required(login_url='login')
 def index(request):
-    tasks = Task.objects.not_done(request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
+    if request.is_ajax() and request.method == 'GET':
 
+        tasks = get_ajax_tasks(request)
+        context = prepare_context_ajax(request, tasks)  # for pagination and date
 
-@login_required(login_url='login')
-def done(request):
-    tasks = Task.objects.done(request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
+        count_status_ajax = get_count_status(request)   # for count status ajax
+        not_done_status_count = count_status_ajax["not_done_status_count"]
+        all_status_count = count_status_ajax["all_status_count"]
 
+        html = render_to_string('task_block.html', context)
+        response = {
+            'html_response': html,
+            'not_done_status_count': not_done_status_count,
+            'all_status_count': all_status_count
+        }
+        return HttpResponse(json.dumps(response), content_type='application/json')
 
-@login_required(login_url='login')
-def not_done(request):
-    tasks = Task.objects.not_done(request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
-
-
-@login_required(login_url='login')
-def all(request):
-    tasks = Task.objects.all_tasks(request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
-
-
-def tag(request, tag_name):
-    tasks = Task.objects.tag(tag_name, request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
-
-
-@login_required(login_url='login')
-def deadline_sort(request):
-    tasks = Task.objects.deadline_sort(request.user)
-    context = prepare_context(request, tasks)
-    return render(request, 'index.html', context)
+    else:
+        sorting_by = '-created_at'
+        tasks = Task.objects.not_done(u"Все теги", request.user, sorting_by)
+        context = prepare_context(request, tasks)
+        return render(request, 'index.html', context)
 
 
 @csrf_exempt
@@ -66,10 +52,14 @@ def delete_task(request):
         task.is_deleted = True
         task.save()
         tags = task.tags.all()
+        tag_list = []
         for tag in tags:
             tag.task_set.remove(task)
+            tag_list.append(tag.title)
+        is_done = task.is_done
         response = {
-            'STATUS': 'OK',
+            'tag_list': tag_list,
+            'is_done': is_done
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -87,29 +77,36 @@ def complete_task(request):
             else:
                 task.is_done = False
         task.save()
+        tags = task.tags.all()
+        tag_list = []
+        for tag in tags:
+            tag_list.append(tag.title)
+
         response = {
             'STATUS': 'OK',
             'is_done': task.is_done,
+            'tag_list': tag_list
+
         }
         return HttpResponse(json.dumps(response), content_type='application/json')
+
 
 @csrf_exempt
 def edit_task(request):
     if request.is_ajax() and request.method == 'POST':
         t_id = request.POST.get('task_id')
         task = Task.objects.get(id=t_id)
-
+        response = {
+            'STATUS': 'OK'
+        }
         if request.POST.get('new_title') is not None:
             task.title = request.POST.get('new_title')
 
         if request.POST.get('new_deadline') is not None:
             task.deadline = request.POST.get('new_deadline')
             task_is_over = task.deadline <= str(datetime.date.today())
+            response['task_is_over'] = task_is_over
         task.save()
-        response = {
-            'STATUS': 'OK',
-            'task_is_over': task_is_over
-        }
         return HttpResponse(json.dumps(response), content_type='application/json')
 
 
@@ -123,7 +120,8 @@ def add_task(request):
             return redirect('index')
         else:
             enable_modal = True
-            tasks = Task.objects.not_done(request.user)
+            sorting_by = '-created_at'
+            tasks = Task.objects.not_done(request.user, sorting_by)
             context = prepare_context(request, tasks)
             context['enable_modal'] = enable_modal
             context['form'] = form

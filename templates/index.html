@@ -2,91 +2,92 @@
 
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <div class="container">
+    <div class="container" xmlns="http://www.w3.org/1999/html">
 
-            <div class="row">
-                <div class="col-sm-8 blog-main">
-                    <div class="blog-header">
-                        <h1 class="blog-title">Мои задачи</h1>
-                        {% include "add_task_modal.html" %}
-                    </div>
-                <hr style="margin-bottom: 40px">
-                    {% for task in tasks %}
-                        {% include "single_task.html" %}
-                    {% endfor %}
-                    {% include "pagination.html" with page=tasks %}
-                </div><!-- /.blog-main -->
+        <div class="row">
+            <div class="col-sm-8 blog-main">
+                <div class="blog-header">
+                    <h1 class="blog-title">Мои задачи</h1>
+                    {% include "add_task_modal.html" %}
+                </div>
+                <div class="replace-tasks">
+                    {% include "task_block.html" %}
+                </div>
+            </div><!-- /.blog-main -->
 
-                <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+            <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
 
-                    <div class="sidebar-module sidebar-module-sort">
-                        <h2>Сортировка</h2>
-                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
-                            <li class="{% if request.path == '/' %}active{% endif %}">
-                                <a href="{% url 'index' %}">По добавлению</a>
+                <div class="sidebar-module sidebar-module-sort">
+                    <h2>Сортировка</h2>
+                    <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
+                        <li class="active">
+                            <a class="sort">По добавлению</a>
+                        </li>
+                        <li>
+                            <a class="sort">По дедлайну</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="sidebar-module sidebar-module-category">
+                    <h2>Теги</h2>
+                    <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
+                        <li class="active">
+                            <a class="tags" id="all_tags_count">
+                                <span>Все теги</span>
+                                <span class="count_right badge badge-warning">{{ not_done_count }}</span></a>
+                        </li>
+
+                        {% for tag in tags %}
+                            <li>
+                                <a class="tags">
+                                    <span class="tag-title">{{ tag.title }}</span>
+                                    <span class="count_right badge badge-warning">{{ tag.task_set.count }}</span></a>
                             </li>
-                            <li class="{% if request.path == '/deadline_sort' %}active{% endif %}">
-                                <a href="{% url 'deadline_sort' %}">По
-                                    дедлайну</a>
-                            </li>
-                        </ul>
-                    </div>
+                        {% endfor %}
 
+                        <li>
+                            <a class="tags" id="none_tags_count">
+                                <span>Без тега</span>
+                                <span class="count_right badge badge-warning">{{ no_tag_count }}</span></a>
+                        </li>
+                    </ul>
+                </div>
 
-                    <div class="sidebar-module sidebar-module-category">
-                        <h2>Теги</h2>
-                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
-                            <li class="{% if request.path == '/' %}active{% endif %}">
-                                <a href="{% url 'index' %}">Все теги<span
-                                        class="badge badge-warning">({{ not_done_count }})</span></a>
-                            </li>
+                <div class="sidebar-module sidebar-module-status">
+                    <h2>Статус</h2>
+                    <ul class="nav nav-pills nav-pills-custom nav-stacked" role="tablist">
+                        <li class="active">
+                            <a class="status" id="not_done_status_count">
+                                <span>Не сделано</span>
+                                <span class="count_right badge badge-warning">{{ not_done_count }}</span></a>
+                        </li>
+                        <li>
+                            <a class="status" id="done_status_count">
+                                <span>Сделано</span>
+                                <span class="count_right badge badge-warning">{{ done_count }}</span></a>
+                        </li>
+                        <li>
+                            <a class="status" id="all_status_count">
+                                <span>Все</span>
+                                <span class="count_right badge badge-warning">{{ all_count }}</span></a>
+                        </li>
+                    </ul>
+                </div>
 
-                            {% for tag in tags %}
-                                <li class="{% if request.path == '/tag/' %}active{% endif %}">
-                                    <a href="{% url 'tag' tag.title %}">{{ tag.title }}
-                                        <span class="badge badge-warning">({{ tag.task_set.count }})</span></a>
-                                </li>
-                            {% endfor %}
+            </div><!-- /.blog-sidebar -->
 
-                            <li class="{% if request.path == '/tag/None/' %}active{% endif %}">
-                                <a href="{% url 'tag' None %}">Без тега
-                                    <span class="count_right badge badge-warning">({{ no_tag_count }})</span></a>
-                            </li>
-                        </ul>
-                    </div>
+        </div><!-- /.row -->
 
-                    <div class="sidebar-module sidebar-module-category">
-                        <h2>Статус</h2>
-                        <ul class="nav nav-pills nav-pills-custom" role="tablist">
-                            <li class="{% if request.path == '/not_done' %}active{% endif %}">
-                                <a href="{% url 'not_done' %}">Не сделано
-                                    <span class="count_right badge badge-warning">({{ not_done_count }})</span></a>
-                            </li>
-                            <li class="{% if request.path == '/done' %}active{% endif %}">
-                                <a href="{% url 'done' %}">Сделано
-                                    <span class="count_right badge badge-warning">({{ done_count }})</span></a>
-                            </li>
-                            <li class="{% if request.path == '/all' %}active{% endif %}">
-                                <a href="{% url 'all' %}">Все
-                                    <span class="count_right badge badge-warning">({{ all_count }})</span></a>
-                            </li>
-                        </ul>
-                    </div>
+    </div><!-- /.container -->
 
-                </div><!-- /.blog-sidebar -->
-
-            </div><!-- /.row -->
-
-        </div><!-- /.container -->
-    {% else %}
-        <h1>Залогиньтесь</h1>
-    {% endif %}
     <footer class="blog-footer">
-{#        <p>Get your things done</p>#}
+        {#        <p>Get your things done</p>#}
     </footer>
 
 {% endblock %}
+
 
 
 

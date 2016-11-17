@@ -14,7 +14,12 @@ class Command(BaseCommand):
         # Fill user
         # u = Profile.objects.create_user(username="timur@mail.ru", password="12345")
         # u.save()
-        u = Profile.objects.get(username="timur@mail.ru")
+
+        try:
+            u = Profile.objects.get(username="timur@mail.ru")
+        except:
+            u = Profile.objects.create_user(username="timur@mail.ru", password="12345")
+            u.save()
         # Fill the tasks and tags
         for i in range(1, 10):
             task = Task(
